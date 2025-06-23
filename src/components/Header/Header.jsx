@@ -4,10 +4,11 @@ import { FaCar, FaUserPlus, FaUserCircle } from 'react-icons/fa';
 import { MdNotificationsNone } from 'react-icons/md';
 import { IoMailOutline } from 'react-icons/io5';
 
-export default function Header() {
+export default function Header(props) {
   return (
     <div className="header">
-      <h2 className="header-title">Meu Site</h2>
+      <h2 className="header-title">ParkZone Senai</h2>
+      <h2 className="header-title">{props.tela}</h2>
 
       <div className="header-icons">
         <button onClick={() => console.log("Carro")}>
