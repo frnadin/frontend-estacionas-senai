@@ -1,0 +1,75 @@
+/* Layout geral */
+.login-container {
+  display: flex;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+/* Lado esquerdo */
+.login-left {
+  flex: 1;
+  background-color: #254AA5; 
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+/* Lado direito */
+.login-right {
+  flex: 1;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Formulário */
+.login-form {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  
+}
+
+.login-form h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+    /* justify-content: center; */
+  text-align: center;
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #254AA5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+
+}
+
+.login-form button:hover {
+  background-color: #5277d6;
+}
