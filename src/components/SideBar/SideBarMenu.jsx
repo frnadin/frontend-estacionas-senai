@@ -1,37 +1,39 @@
 import React from 'react';
 import './SidebarMenu.css';
-import { FaCar, FaUsers } from 'react-icons/fa';
-// O ícone FaGasPump não estava sendo usado na imagem, mas vou manter se você precisar.
-// Se não for usar o Acessos, pode remover. Assumi que será um ícone de "Entrada/Saída".
-import { FaSignInAlt } from "react-icons/fa";
-
+import { FaCar, FaUsers, FaHome, FaParking, FaKey  } from 'react-icons/fa';
 
 export default function SidebarMenu() {
   return (
     <div className="sidebar">
-      {/* Bloco do Logo Adicionado */}
-      <div className="logo-container">
-        <img 
-          src="./public/logo-senai.fw_.png" 
-          alt="Logo ParkZone" 
-          className="sidebar-logo"
-        />
-      </div>
+      <h2 className="logo">
+        PARK<span className="green">ZONE</span>
+      </h2>
+
+
 
       <div className="sidebar-buttons">
         <button>
-          {/* Usei um ícone que representa melhor "Acessos" ou "Entradas" */}
-          <FaSignInAlt className="icon" />
-          ACESSOS
+          <FaHome className="icon" />
+          <h2>HOME</h2>
+        </button>
+        <button>
+          <FaParking className="icon" />
+          <h2>ACESSOS</h2>
         </button>
         <button>
           <FaCar className="icon" />
-          VEÍCULOS
+          <h2>VEÍCULOS</h2>
         </button>
         <button>
           <FaUsers className="icon" />
-          USUÁRIOS
+          <h2>USUÁRIOS</h2>
         </button>
+        <button>
+          <FaKey  className="icon" />
+          <h2>PERMISSÕES</h2>
+        </button>
+           
+        
       </div>
     </div>
   );
