@@ -25,7 +25,19 @@
   padding: 1rem;
 }
 
+.logos {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  gap: 6rem;
+}
 
+.sesi-logo {
+  width: 100px;
+  margin-bottom: 1rem;
+}
 
 .senai-logo {
   width: 140px;
@@ -36,6 +48,7 @@
   font-size: 1.3rem;
   font-weight: 400;
   margin-bottom: 0.5rem;
+  color: #fff ;
 }
 
 .login-info p {
