@@ -10,7 +10,7 @@ function Login() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [erroLogin, setErroLogin] = useState('') // fazer no JSX
+  // const [erroLogin, setErroLogin] = useState('') // fazer no JSX
 
   const { login } = useContext(AuthContext)
 
@@ -29,7 +29,7 @@ function Login() {
       localStorage.setItem('token', token)
     } catch (error) {
       console.error('Erro ao fazer login:', error);
-      setErroLogin('Email ou senha inválidos. Tente novamente.');
+      // setErroLogin('Email ou senha inválidos. Tente novamente.');
       return;
     }
     // Navegar para a página inicial após o login

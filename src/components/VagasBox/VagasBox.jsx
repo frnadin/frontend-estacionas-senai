@@ -16,7 +16,7 @@ export default function VagasBox() {
         console.log("Dados das vagas:", response.data);
 
         const { vagas_totais, vagas_disponiveis, vagas_ocupadas } = response.data;
-        
+
         setVagas({
           total: vagas_totais,
           livres: vagas_disponiveis,
@@ -28,6 +28,7 @@ export default function VagasBox() {
       }
     }
     fetchVagas();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
