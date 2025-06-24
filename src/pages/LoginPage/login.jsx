@@ -10,7 +10,7 @@ function Login() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  // const [erroLogin, setErroLogin] = useState('') // fazer no JSX
+  const [erroLogin, setErroLogin] = useState('')
 
   const { login } = useContext(AuthContext)
 
@@ -23,17 +23,18 @@ function Login() {
 
       const { token, user } = response.data;
       console.log('Login bem-sucedido:', user, token);
-      
+
       login(user, token);
       localStorage.setItem('usuario', JSON.stringify(user))
       localStorage.setItem('token', token)
+
+      setErroLogin('') // limpa o erro se login for bem-sucedido
+      navigate('/home');
+
     } catch (error) {
       console.error('Erro ao fazer login:', error);
-      // setErroLogin('Email ou senha inválidos. Tente novamente.');
-      return;
+      setErroLogin('Email ou senha inválidos. Tente novamente.');
     }
-    // Navegar para a página inicial após o login
-    navigate('/home');
   }
 
   return (
@@ -46,7 +47,6 @@ function Login() {
             <h2>Estacionamento Digital</h2>
             <h2>SENAI - São José</h2>
           </div>
-
 
           <div className="login-bottom">
             <div className='logos'>
@@ -66,7 +66,6 @@ function Login() {
 
           </div>
         </div>
-
       </div>
 
       <div className="login-right">
@@ -92,11 +91,15 @@ function Login() {
             />
 
             <button type="submit">Entrar</button>
+
+            <div className={`erro-login ${erroLogin ? 'visivel' : ''}`}>
+              {erroLogin}
+            </div>
           </form>
         </div>
       </div>
     </div>
   )
-
 }
+
 export default Login

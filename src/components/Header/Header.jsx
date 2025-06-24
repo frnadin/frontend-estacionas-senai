@@ -7,7 +7,8 @@ import { useState } from 'react';
 import FormGenerico from '../FormGenerico/FormGenerico.jsx';
 import Modal from '../Modal/Modal.jsx';
 
-export default function Header(props) {
+// 1. Receba a nova prop 'onNotificationClick' junto com 'tela'
+export default function Header({ tela, onNotificationClick }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const camposTeste = [
@@ -21,15 +22,12 @@ export default function Header(props) {
   const handleSubmit = (dados) => {
     console.log("Dados do formulário:", dados);
     setIsModalOpen(false);
-    // Aqui você pode fazer um POST com axios pra sua API
   };
+
   return (
-
-
-
     <div className="header">
       <div id='space'></div>
-      <h2 className="header-title">{props.tela}</h2>
+      <h2 className="header-title">{tela}</h2>
 
       <div className="header-icons">
         <button onClick={() => console.log("Carro")}>
@@ -44,10 +42,10 @@ export default function Header(props) {
           <FaRegIdCard />
         </button>
 
-        <button onClick={() => console.log("Notificações")}>
+        {/* 2. No onClick, chame a função recebida pela prop */}
+        <button onClick={onNotificationClick}>
           <MdNotificationsNone />
         </button>
-
 
         <button onClick={() => console.log("Perfil")}>
           <FaUserCircle />
@@ -65,7 +63,6 @@ export default function Header(props) {
           onSubmit={handleSubmit}
         />
       </Modal>
-       
     </div>
   );
 }
