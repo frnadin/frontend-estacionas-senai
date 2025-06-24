@@ -1,6 +1,6 @@
 import React from 'react';
 import './Header.css';
-import { FaCar, FaUserPlus, FaUserCircle, FaRegIdCard } from 'react-icons/fa';
+import { FaCar, FaUserPlus, FaUserCircle, FaRegIdCard, FaPowerOff  } from 'react-icons/fa';
 import { MdNotificationsNone } from 'react-icons/md';
 import { IoMailOutline } from 'react-icons/io5';
 
@@ -30,6 +30,9 @@ export default function Header(props) {
 
         <button onClick={() => console.log("Perfil")}>
           <FaUserCircle />
+        </button>
+        <button onClick={() => console.log("Sair")}>
+          <FaPowerOff  />
         </button>
       </div>
     </div>

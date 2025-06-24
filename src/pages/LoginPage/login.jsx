@@ -1,21 +1,37 @@
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import './login.css'
 import { FaEnvelope } from 'react-icons/fa';
-
+import { AuthContext } from '../../context/AuthContext.jsx'
+import api from '../../services/api.js';
 
 function Login() {
 
   const navigate = useNavigate()
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [erroLogin, setErroLogin] = useState('') // fazer no JSX
 
-  const handleLogin = () => {
-    // Aqui você pode adicionar a lógica de autenticação
-    console.log('Email:', email);
-    console.log('Senha:', password);
+  const { login } = useContext(AuthContext)
 
+  const handleLogin = async () => {
+    try {
+      const response = await api.post('/login', {
+        email,
+        password
+      });
+
+      const { token, user } = response.data;
+      console.log('Login bem-sucedido:', user, token);
+      
+      login(user, token);
+      localStorage.setItem('usuario', JSON.stringify(user))
+      localStorage.setItem('token', token)
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
+      setErroLogin('Email ou senha inválidos. Tente novamente.');
+      return;
+    }
     // Navegar para a página inicial após o login
     navigate('/home');
   }
