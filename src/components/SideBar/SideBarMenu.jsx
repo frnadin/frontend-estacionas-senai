@@ -1,6 +1,6 @@
 import React from 'react';
 import './SidebarMenu.css';
-import { FaGasPump, FaCar, FaUsers } from 'react-icons/fa';
+import { FaGasPump, FaCar, FaUsers, FaHome  } from 'react-icons/fa';
 
 export default function SidebarMenu() {
   return (
@@ -13,7 +13,7 @@ export default function SidebarMenu() {
 
       <div className="sidebar-buttons">
         <button>
-          <FaGasPump className="icon" />
+          <FaHome className="icon" />
           <h2>HOME</h2>
         </button>
         <button>
