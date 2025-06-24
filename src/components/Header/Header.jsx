@@ -13,6 +13,8 @@ export default function Header(props) {
   const camposTeste = [
     { nome: "nome", rotulo: "Nome", tipo: "text", obrigatorio: true },
     { nome: "email", rotulo: "Email", tipo: "email", obrigatorio: true },
+    { nome: "email", rotulo: "Email", tipo: "email", obrigatorio: true },
+    { nome: "email", rotulo: "Email", tipo: "email", obrigatorio: true },
     { nome: "idade", rotulo: "Idade", tipo: "number", obrigatorio: false }
   ];
 

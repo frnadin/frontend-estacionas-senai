@@ -18,12 +18,12 @@ function FormGenerico({ campos, onSubmit, titulo = "", botaoTexto = "Salvar" }) 
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="form-generico">
             {titulo && <h2>{titulo}</h2>}
             {campos.map((campo, index) => (
                 <div
                     key={index}
-                    className={`form-group ${campo.fullWidth ? 'full-width' : ''}`}
+                    className={`form-group`}
                 >
                     <label htmlFor={campo.nome}>{campo.rotulo}</label>
                     <input

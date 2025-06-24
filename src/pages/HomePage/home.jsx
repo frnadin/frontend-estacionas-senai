@@ -3,7 +3,7 @@ import React from 'react';
 import './home.css';
 import VagasBox from '../../components/VagasBox/VagasBox';
 import SidebarMenu from '../../components/SideBar/SideBarMenu';
-import { useState } from 'react';
+// import { useState } from 'react';
 import FormGenerico from '../../components/FormGenerico/FormGenerico.jsx';
 import Modal from '../../components/Modal/Modal.jsx'; 
 
