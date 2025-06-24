@@ -12,7 +12,7 @@ export default function SidebarMenu() {
       {/* Bloco do Logo Adicionado */}
       <div className="logo-container">
         <img 
-          src="" 
+          src="./public/logo-senai.fw_.png" 
           alt="Logo ParkZone" 
           className="sidebar-logo"
         />

@@ -4,24 +4,34 @@ import './login.css'
 
 function Login() {
 
-const navigate = useNavigate()
+  const navigate = useNavigate()
 
-const [email, setEmail] = useState('')
-const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-const handleLogin = () => {
+  const handleLogin = () => {
     // Aqui você pode adicionar a lógica de autenticação
     console.log('Email:', email);
     console.log('Senha:', password);
-    
+
     // Navegar para a página inicial após o login
     navigate('/home');
-  } 
+  }
 
   return (
     <div className="login-container">
       <div className="login-left">
-        <h1>Bem-vindo!</h1>
+        <div className="login-info">
+
+          <h2>Estacionamento Digital</h2>
+          <h2>SENAI São José</h2>
+          <p>📧 atendimento@sc.senai.br</p>
+          <div className='logos'>
+            <img src="/logo-senai.fw_.png" alt="Logo SENAI" className="senai-logo" />
+            <img src="/logo-sesi.fw_.png" alt="Logo sesi" className="sesi-logo" />
+          </div>
+        </div>
+
       </div>
 
       <div className="login-right">
