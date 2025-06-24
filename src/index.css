@@ -29,7 +29,7 @@ body {
   flex-direction: column;
 }
 
-span, h2 {
+span, h2, h1 {
   font-family: 'PixelEmulator', sans-serif;
   color: #254AA5;
 }
