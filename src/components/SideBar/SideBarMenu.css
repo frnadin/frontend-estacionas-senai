@@ -1,46 +1,61 @@
 .sidebar {
-    width: 200px;
-    height: 100vh;
-    background-color: #005BA6;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 30px;
-  }
-  
-  .logo {
-    font-family: 'Press Start 2P', sans-serif;
-    font-size: 14px;
-    text-align: center;
-    color: white;
-    margin-bottom: 40px;
-  }
-  
-  .green {
-    color: #00b050;
-  }
-  
-  .sidebar-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-  
-  .sidebar-buttons button {
-    background: none;
-    border: none;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .sidebar-buttons button:hover {
-    color: #00ffcc;
-    transform: scale(1.05);
-  }
-  
+  width: 250px;
+  height: 100vh;
+  background-color: #005ba6;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  /* justify-content: space-between; */
+  align-items: center;
+  /* gap: 20px; */
+}
+
+.logo {
+  font-size: 22px;
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.green {
+  color: #00b050;
+}
+.sidebar-header {
+  color: #00b050;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 30px;
+}
+.sidebar-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  flex: 1;
+  justify-content: center;
+  align-self: center;
+  padding-bottom: 30px;
+}
+
+.sidebar-buttons button {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-buttons button:hover {
+  color: #00ffcc;
+  transform: scale(1.05);
+}
+
+h2 {
+  font-size: 16px;
+  color: #ffffff !important;
+}

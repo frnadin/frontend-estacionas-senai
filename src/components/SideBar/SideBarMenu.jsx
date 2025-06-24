@@ -9,19 +9,31 @@ export default function SidebarMenu() {
         PARK<span className="green">ZONE</span>
       </h2>
 
+
+
       <div className="sidebar-buttons">
         <button>
           <FaGasPump className="icon" />
-          ACESSOS
+          <h2>HOME</h2>
+        </button>
+        <button>
+          <FaGasPump className="icon" />
+          <h2>ACESSOS</h2>
         </button>
         <button>
           <FaCar className="icon" />
-          VEÍCULOS
+          <h2>VEÍCULOS</h2>
         </button>
         <button>
           <FaUsers className="icon" />
-          USUÁRIOS
+          <h2>USUÁRIOS</h2>
         </button>
+        <button>
+          <FaUsers className="icon" />
+          <h2>PERMISSÕES</h2>
+        </button>
+           
+        
       </div>
     </div>
   );

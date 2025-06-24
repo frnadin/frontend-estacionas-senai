@@ -1,15 +1,13 @@
 import React from 'react';
 import './Header.css';
-import { FaCar, FaUserPlus, FaUserCircle } from 'react-icons/fa';
+import { FaCar, FaUserPlus, FaUserCircle, FaRegIdCard } from 'react-icons/fa';
 import { MdNotificationsNone } from 'react-icons/md';
 import { IoMailOutline } from 'react-icons/io5';
 
 export default function Header(props) {
   return (
     <div className="header">
-      <h2 className="logo-title">
-  PARK<span className="logo-green">ZONE</span></h2>
-
+      <div id='space'></div>
       <h2 className="header-title">{props.tela}</h2>
 
       <div className="header-icons">
@@ -21,13 +19,14 @@ export default function Header(props) {
           <FaUserPlus />
         </button>
 
+        <button onClick={() => console.log("Adicionar permissao")}>
+          <FaRegIdCard />
+        </button>
+
         <button onClick={() => console.log("Notificações")}>
           <MdNotificationsNone />
         </button>
 
-        <button onClick={() => console.log("Mensagens")}>
-          <IoMailOutline />
-        </button>
 
         <button onClick={() => console.log("Perfil")}>
           <FaUserCircle />
