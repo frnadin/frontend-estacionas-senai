@@ -1,0 +1,35 @@
+.vagas-box {
+    background-color: #e4e4e4;
+    padding: 20px;
+    border-radius: 15px;
+    width: 250px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .vagas-box h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-family: 'Press Start 2P', sans-serif;
+  }
+  
+  .vagas-total {
+    color: #000;
+    font-size: 14px;
+    margin: 8px 0;
+  }
+  
+  .vagas-livres {
+    color: #00b050; /* verde */
+    font-size: 14px;
+    margin: 8px 0;
+  }
+  
+  .vagas-ocupadas {
+    color: #ff0000; /* vermelho */
+    font-size: 14px;
+    margin: 8px 0;
+  }
+  

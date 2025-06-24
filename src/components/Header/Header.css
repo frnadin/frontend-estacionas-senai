@@ -33,4 +33,10 @@
     transform: scale(1.2);
     color: white;
   }
+  .logo-title {
+    color: #ffffff;
+  }
+  .logo-green {
+    color: #00b050; /* verde vibrante */
+  }
   

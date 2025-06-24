@@ -7,7 +7,9 @@ import { IoMailOutline } from 'react-icons/io5';
 export default function Header(props) {
   return (
     <div className="header">
-      <h2 className="header-title">ParkZone Senai</h2>
+      <h2 className="logo-title">
+  PARK<span className="logo-green">ZONE</span></h2>
+
       <h2 className="header-title">{props.tela}</h2>
 
       <div className="header-icons">
