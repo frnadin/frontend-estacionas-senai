@@ -16,16 +16,15 @@
   font-weight: bold;
   text-align: center;
 }
+
 .login-info {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   padding: 1rem;
-  justify-content: end;
   height: 85%;
   justify-content: space-between;
-  
 }
 
 .login-header {
@@ -38,7 +37,6 @@
   align-items: center;
   justify-content: space-around;
   margin-bottom: 0.4rem;
-
 }
 
 .sesi-logo {
@@ -61,7 +59,6 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  /* margin-top: 20px; */
   gap: 30px;
 }
 
@@ -77,6 +74,7 @@
 .contatos a:hover {
   color: #5cc133;
 }
+
 .copyright {
   font-size: 0.6rem;
   color: #ffffffd1;
@@ -114,7 +112,6 @@
 .login-form h2 {
   font-size: 1.8rem;
   margin-bottom: 20px;
-  /* justify-content: center; */
   text-align: center;
 }
 
@@ -148,4 +145,21 @@
 
 .login-form button:hover {
   background-color: #5277d6;
+}
+
+/* ✅ Mensagem de erro */
+.erro-login {
+  height: 20px;
+  margin-top: 15px;
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+.erro-login.visivel {
+  visibility: visible;
+  opacity: 1;
 }
