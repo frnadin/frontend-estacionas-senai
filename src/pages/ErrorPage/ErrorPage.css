@@ -1,0 +1,60 @@
+/* src/pages/ErrorPage/ErrorPage.css */
+.error-page-container {
+    display: flex;
+    flex-direction: column; /* Organiza os itens em coluna */
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: center; /* Centraliza verticalmente (se o contêiner tiver altura suficiente) */
+    min-height: 100vh; /* Garante que o contêiner ocupe a altura total da tela */
+    text-align: center;
+    background-color: #f8f8f8; /* Um fundo claro e suave */
+    color: #333;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    box-sizing: border-box; /* Garante que padding não adicione à largura/altura total */
+}
+
+.error-image {
+    max-width: 500px; /* Limita o tamanho da imagem */
+    height: auto; /* Mantém a proporção da imagem */
+    margin-bottom: 30px;
+}
+
+.error-page-container h1 {
+    font-size: 3em; /* Tamanho grande para o código/título do erro */
+    color: #e74c3c; /* Uma cor de destaque para o erro */
+    margin-bottom: 10px;
+}
+
+.error-page-container p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    max-width: 600px; /* Limita a largura do parágrafo */
+}
+
+.error-page-container button {
+    background-color: #3498db; /* Cor azul para o botão */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.error-page-container button:hover {
+    background-color: #2980b9; /* Cor mais escura ao passar o mouse */
+}
+
+/* Opcional: Para telas menores */
+@media (max-width: 768px) {
+    .error-image {
+        max-width: 80%;
+    }
+    .error-page-container h1 {
+        font-size: 2.5em;
+    }
+    .error-page-container p {
+        font-size: 1em;
+    }
+}

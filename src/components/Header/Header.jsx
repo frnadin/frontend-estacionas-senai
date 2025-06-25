@@ -6,10 +6,11 @@ import { IoMailOutline } from 'react-icons/io5';
 import { useState } from 'react';
 import FormGenerico from '../FormGenerico/FormGenerico.jsx';
 import Modal from '../Modal/Modal.jsx';
+import { useNavigate } from 'react-router-dom'; 
 
-// 1. Receba a nova prop 'onNotificationClick' junto com 'tela'
 export default function Header({ tela, onNotificationClick }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate(); 
 
   const camposTeste = [
     { nome: "nome", rotulo: "Nome", tipo: "text", obrigatorio: true },
@@ -20,6 +21,11 @@ export default function Header({ tela, onNotificationClick }) {
   const handleSubmit = (dados) => {
     console.log("Dados do formulário:", dados);
     setIsModalOpen(false);
+  };
+
+
+  const handleLogout = () => {
+    navigate('/login'); 
   };
 
   return (
@@ -40,7 +46,6 @@ export default function Header({ tela, onNotificationClick }) {
           <FaRegIdCard />
         </button>
 
-        {/* 2. No onClick, chame a função recebida pela prop */}
         <button onClick={onNotificationClick}>
           <MdNotificationsNone />
         </button>
@@ -48,7 +53,7 @@ export default function Header({ tela, onNotificationClick }) {
         <button onClick={() => console.log("Perfil")}>
           <FaUserCircle />
         </button>
-        <button onClick={() => console.log("Sair")}>
+        <button onClick={handleLogout}>
           <FaPowerOff />
         </button>
       </div>
