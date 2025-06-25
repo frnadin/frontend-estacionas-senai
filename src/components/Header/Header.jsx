@@ -2,12 +2,12 @@ import React from 'react';
 import './Header.css';
 import { FaCar, FaUserPlus, FaUserCircle, FaRegIdCard, FaPowerOff } from 'react-icons/fa';
 import { MdNotificationsNone } from 'react-icons/md';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import FormGenerico from '../FormGenerico/FormGenerico.jsx';
 import Modal from '../Modal/Modal.jsx';
 import { useNavigate } from 'react-router-dom';
 import { camposPessoa } from '../../data/camposPessoa.js';
-import { camposCarro as camposCarroBase } from '../../data/camposCarro.js';
+import { camposVeiculos as camposVeiculosBase } from '../../data/camposVeiculo.js';
 import { camposPermissao as camposPermissaoBase } from '../../data/camposPermissao.js';
 
 
@@ -17,89 +17,88 @@ import { criarPermissao } from '../../services/permissaoService.js';
 
 
 export default function Header({ tela, onNotificationClick }) {
-
   const [pessoas, setPessoas] = useState([]);
   const [veiculos, setVeiculos] = useState([]);
-  const [camposCarro, setCamposCarro] = useState([]);
+  const [camposVeiculo, setCamposVeiculo] = useState([]);
   const [camposPermissao, setCamposPermissao] = useState([]);
   const [formDataPermissao, setFormDataPermissao] = useState({});
-
-
   const navigate = useNavigate();
   const [modalAberto, setModalAberto] = useState(null);
 
+  // Moved inside the component and memoized with useCallback
+  const fetchData = useCallback(async () => {
+    try {
+      const listaPessoas = await listarPessoas();
+      setPessoas(listaPessoas);
 
-async function fetchData(setPessoas, setCamposCarro, setCamposPermissao) {
-  try {
-    const listaPessoas = await listarPessoas();
+      // Atualiza camposVeiculo
+      const novosCamposVeiculo = camposVeiculosBase.map(campo => {
+        if (campo.nome === 'id_usuario') {
+          return {
+            ...campo,
+            tipo: 'select',
+            opcoes: listaPessoas.map(p => ({ label: p.name, valor: p.id })),
+            obrigatorio: true
+          };
+        }
+        return campo;
+      });
+      setCamposVeiculo(novosCamposVeiculo);
 
-    setPessoas(listaPessoas);
+      // Atualiza camposPermissao
+      const novosCamposPermissao = camposPermissaoBase.map(campo => {
+        if (campo.nome === 'pessoa_id') {
+          return {
+            ...campo,
+            tipo: 'select',
+            opcoes: listaPessoas.map(p => ({ label: p.name, valor: p.id })),
+            obrigatorio: true
+          };
+        }
+        if (campo.nome === 'veiculo_id') {
+          return {
+            ...campo,
+            tipo: 'select',
+            opcoes: [],
+            obrigatorio: true
+          };
+        }
+        return campo;
+      });
+      setCamposPermissao(novosCamposPermissao);
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+    }
+  }, []);
 
-    // Atualiza camposCarro
-    const novosCamposCarro = camposCarroBase.map(campo => {
-      if (campo.nome === 'id_usuario') {
-        return {
-          ...campo,
-          tipo: 'select',
-          opcoes: listaPessoas.map(p => ({ label: p.name, valor: p.id })),
-          obrigatorio: true
-        };
-      }
-      return campo;
-    });
-    setCamposCarro(novosCamposCarro);
+  useEffect(() => {
+      console.log('modalAberto mudou para:', modalAberto);
 
-    // Atualiza camposPermissao
-    const novosCamposPermissao = camposPermissaoBase.map(campo => {
-      if (campo.nome === 'pessoa_id') {
-        return {
-          ...campo,
-          tipo: 'select',
-          opcoes: listaPessoas.map(p => ({ label: p.name, valor: p.id })),
-          obrigatorio: true
-        };
-      }
-      if (campo.nome === 'veiculo_id') {
-        return {
-          ...campo,
-          tipo: 'select',
-          opcoes: [],
-          obrigatorio: true
-        };
-      }
-      return campo;
-    });
-    setCamposPermissao(novosCamposPermissao);
-  } catch (error) {
-    console.error('Erro ao buscar dados:', error);
-  }
-}
+    if (modalAberto === 'pessoa' || modalAberto === 'permissao' || modalAberto === 'veiculo') {
+      fetchData();
+    }
+  }, [modalAberto, fetchData]);
 
-useEffect(() => {
-  if (modalAberto === 'pessoa' || modalAberto === 'permissao') {
-    fetchData(setPessoas, setCamposCarro, setCamposPermissao);
-  }
-}, [modalAberto]);
-
-  
 
   const handleSubmitPessoa = async (dados) => {
     try {
       const response = await criarPessoa(dados);
       console.log('Pessoa cadastrada com sucesso:', response);
+      await fetchData(); 
       setModalAberto(null);
     } catch (error) {
       console.error('Erro ao cadastrar pessoa:', error);
       alert('Erro ao criar usuário.');
     }
   };
-  const handleSubmitCarro = async (dados) => {
+  const handleSubmitVeiculo = async (dados) => {
     try {
       const response = await criarVeiculo(dados);
-      alert('Carro criado com sucesso!', response);
+      alert('Veiculo criado com sucesso!', response);
+      await fetchData(); 
       setModalAberto(null);
     } catch (error) {
-      alert('Erro ao criar carro', error);
+      alert('Erro ao criar veiculo', error);
     }
   };
 
@@ -109,14 +108,13 @@ useEffect(() => {
     if (nome === 'pessoa_id') {
       if (!valor) {
         atualizarOpcoesVeiculo([]);
-        setFormDataPermissao(prev => ({ ...prev, veiculo_id: '' })); // limpa seleção veículo
+        setFormDataPermissao(prev => ({ ...prev, veiculo_id: '' })); 
         return;
       }
       try {
         const veiculos = await buscarVeiculosPorUsuario(valor);
         atualizarOpcoesVeiculo(veiculos);
 
-        // Limpa seleção veiculo_id para forçar escolher um novo veículo válido
         setFormDataPermissao(prev => ({ ...prev, veiculo_id: '' }));
       } catch (error) {
         console.error('Erro ao buscar veículos da pessoa:', error);
@@ -131,6 +129,7 @@ useEffect(() => {
     try {
       const response = await criarPermissao(dados);
       alert('Permissão criada com sucesso!', response);
+      await fetchData(); 
       setModalAberto(null);
     } catch (error) {
       alert('Erro ao criar permissão', error);
@@ -138,10 +137,11 @@ useEffect(() => {
   };
 
 
-
+  // VER ISSO 
+  // eslint-disable-next-line no-unused-vars
   const handlePessoaChange = async (pessoaId) => {
     if (!pessoaId) {
-      atualizarOpcoesVeiculo([]); // limpa opções se desmarcar pessoa
+      atualizarOpcoesVeiculo([]);
       return;
     }
     try {
@@ -179,12 +179,12 @@ useEffect(() => {
       <h2 className="header-title">{tela}</h2>
 
       <div className="header-icons">
-        <button onClick={() => setModalAberto('veiculo')} className="btn-teste-formulario">
-          <FaCar />
-        </button>
 
         <button onClick={() => setModalAberto('pessoa')} className="btn-teste-formulario">
           <FaUserPlus />
+        </button>
+        <button onClick={() => setModalAberto('veiculo')} className="btn-teste-formulario">
+          <FaCar />
         </button>
 
 
@@ -214,10 +214,10 @@ useEffect(() => {
       </Modal>
       <Modal isOpen={modalAberto === 'veiculo'} onClose={() => setModalAberto(null)}>
         <FormGenerico
-          titulo="Cadastro de Carro"
-          campos={camposCarro}
+          titulo="Cadastro de Veiculo"
+          campos={camposVeiculo}
           botaoTexto="Adicionar"
-          onSubmit={handleSubmitCarro}
+          onSubmit={handleSubmitVeiculo}
         />
       </Modal>
       <Modal isOpen={modalAberto === 'permissao'} onClose={() => setModalAberto(null)}>

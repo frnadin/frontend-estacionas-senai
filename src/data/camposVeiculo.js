@@ -1,4 +1,4 @@
-export const camposCarro = [
+export const camposVeiculos = [
   { nome: "plate", rotulo: "Placa", tipo: "text", placeholder: "Digite a placa", obrigatorio: true },
   { nome: "model", rotulo: "Modelo", tipo: "text", placeholder: "Digite o modelo", obrigatorio: true },
   { nome: "color", rotulo: "Cor", tipo: "text", placeholder: "Digite a cor", obrigatorio: true },
@@ -10,7 +10,7 @@ export const camposCarro = [
     opcoes: [
       { label: "Carro", valor: "carro" },
       { label: "Moto", valor: "moto" },
-      { label: "Van", valor: "van" }
+      { label: "Outros", valor: "outro" }
     ], 
     obrigatorio: true 
   },
