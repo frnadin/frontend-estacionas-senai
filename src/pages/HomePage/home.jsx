@@ -6,7 +6,7 @@ import SidebarMenu from '../../components/SideBar/SideBarMenu';
 // import { useState } from 'react';
 import FormGenerico from '../../components/FormGenerico/FormGenerico.jsx';
 import Modal from '../../components/Modal/Modal.jsx'; 
-
+import NotificationModal from '../../components/NotificationModal/NotificationModal.jsx'
 
 function Home() {
   // 2. Crie o estado para controlar a visibilidade do modal de notificação
