@@ -12,7 +12,7 @@ export const camposPessoa = [
     opcoes: [
       { label: "Aluno", valor: "aluno" },
       { label: "Professor", valor: "professor" },
-      { label: "Administrador", valor: "adm" }
+      { label: "Administrador", valor: "administrador" }
     ]
   },
   { nome: "email", rotulo: "Email", tipo: "email", obrigatorio: true, placeholder: "exemplo@email.com" },
