@@ -1,6 +1,6 @@
 import React from 'react';
 import './ErrorPage.css';
-import errorImage from '../../../public/mario-cansado.gif';
+import errorImage from '../../../public/mario-rodando.gif';
 import { FaHome } from "react-icons/fa";
 
 function ErrorPage({ statusCode, message }) {
