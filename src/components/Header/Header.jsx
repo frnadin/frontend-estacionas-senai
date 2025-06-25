@@ -1,20 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './Header.css';
 import { FaCar, FaUserPlus, FaUserCircle, FaRegIdCard, FaPowerOff } from 'react-icons/fa';
 import { MdNotificationsNone } from 'react-icons/md';
-import { useState, useEffect, useCallback } from 'react';
 import FormGenerico from '../FormGenerico/FormGenerico.jsx';
 import Modal from '../Modal/Modal.jsx';
+import UserMenu from '../UserMenu/UserMenu.jsx'; // ADICIONADO AQUI
 import { useNavigate } from 'react-router-dom';
+
 import { camposPessoa } from '../../data/camposPessoa.js';
 import { camposVeiculos as camposVeiculosBase } from '../../data/camposVeiculo.js';
 import { camposPermissao as camposPermissaoBase } from '../../data/camposPermissao.js';
 
-
 import { criarPessoa, listarPessoas } from '../../services/pessoaService.js';
 import { criarVeiculo, listarVeiculos, buscarVeiculosPorUsuario } from '../../services/veiculoService.js';
 import { criarPermissao } from '../../services/permissaoService.js';
-
 
 export default function Header({ tela, onNotificationClick }) {
   const [pessoas, setPessoas] = useState([]);
@@ -24,14 +23,13 @@ export default function Header({ tela, onNotificationClick }) {
   const [formDataPermissao, setFormDataPermissao] = useState({});
   const navigate = useNavigate();
   const [modalAberto, setModalAberto] = useState(null);
+  const [showUserMenu, setShowUserMenu] = useState(false);
 
-  // Moved inside the component and memoized with useCallback
   const fetchData = useCallback(async () => {
     try {
       const listaPessoas = await listarPessoas();
       setPessoas(listaPessoas);
 
-      // Atualiza camposVeiculo
       const novosCamposVeiculo = camposVeiculosBase.map(campo => {
         if (campo.nome === 'id_usuario') {
           return {
@@ -45,7 +43,6 @@ export default function Header({ tela, onNotificationClick }) {
       });
       setCamposVeiculo(novosCamposVeiculo);
 
-      // Atualiza camposPermissao
       const novosCamposPermissao = camposPermissaoBase.map(campo => {
         if (campo.nome === 'pessoa_id') {
           return {
@@ -72,25 +69,21 @@ export default function Header({ tela, onNotificationClick }) {
   }, []);
 
   useEffect(() => {
-      console.log('modalAberto mudou para:', modalAberto);
-
     if (modalAberto === 'pessoa' || modalAberto === 'permissao' || modalAberto === 'veiculo') {
       fetchData();
     }
   }, [modalAberto, fetchData]);
 
-
   const handleSubmitPessoa = async (dados) => {
     try {
       const response = await criarPessoa(dados);
-      console.log('Pessoa cadastrada com sucesso:', response);
       await fetchData(); 
       setModalAberto(null);
     } catch (error) {
-      console.error('Erro ao cadastrar pessoa:', error);
       alert('Erro ao criar usuário.');
     }
   };
+
   const handleSubmitVeiculo = async (dados) => {
     try {
       const response = await criarVeiculo(dados);
@@ -98,7 +91,7 @@ export default function Header({ tela, onNotificationClick }) {
       await fetchData(); 
       setModalAberto(null);
     } catch (error) {
-      alert('Erro ao criar veiculo', error);
+      alert('Erro ao criar veiculo');
     }
   };
 
@@ -114,16 +107,13 @@ export default function Header({ tela, onNotificationClick }) {
       try {
         const veiculos = await buscarVeiculosPorUsuario(valor);
         atualizarOpcoesVeiculo(veiculos);
-
         setFormDataPermissao(prev => ({ ...prev, veiculo_id: '' }));
       } catch (error) {
-        console.error('Erro ao buscar veículos da pessoa:', error);
         atualizarOpcoesVeiculo([]);
         setFormDataPermissao(prev => ({ ...prev, veiculo_id: '' }));
       }
     }
   };
-
 
   const handleSubmitPermissao = async (dados) => {
     try {
@@ -132,24 +122,7 @@ export default function Header({ tela, onNotificationClick }) {
       await fetchData(); 
       setModalAberto(null);
     } catch (error) {
-      alert('Erro ao criar permissão', error);
-    }
-  };
-
-
-  // VER ISSO 
-  // eslint-disable-next-line no-unused-vars
-  const handlePessoaChange = async (pessoaId) => {
-    if (!pessoaId) {
-      atualizarOpcoesVeiculo([]);
-      return;
-    }
-    try {
-      const veiculos = await buscarVeiculosPorUsuario(pessoaId);
-      atualizarOpcoesVeiculo(veiculos);
-    } catch (error) {
-      console.error('Erro ao buscar veículos da pessoa:', error);
-      atualizarOpcoesVeiculo([]);
+      alert('Erro ao criar permissão');
     }
   };
 
@@ -167,8 +140,6 @@ export default function Header({ tela, onNotificationClick }) {
     );
   };
 
-
-
   const handleLogout = () => {
     navigate('/login');
   };
@@ -179,15 +150,12 @@ export default function Header({ tela, onNotificationClick }) {
       <h2 className="header-title">{tela}</h2>
 
       <div className="header-icons">
-
         <button onClick={() => setModalAberto('pessoa')} className="btn-teste-formulario">
           <FaUserPlus />
         </button>
         <button onClick={() => setModalAberto('veiculo')} className="btn-teste-formulario">
           <FaCar />
         </button>
-
-
         <button onClick={() => setModalAberto('permissao')} className="btn-teste-formulario">
           <FaRegIdCard />
         </button>
@@ -196,13 +164,16 @@ export default function Header({ tela, onNotificationClick }) {
           <MdNotificationsNone />
         </button>
 
-        <button onClick={() => console.log("Perfil")}>
+        <button onClick={() => setShowUserMenu(prev => !prev)}>
           <FaUserCircle />
         </button>
+
         <button onClick={handleLogout}>
           <FaPowerOff />
         </button>
       </div>
+
+      {showUserMenu && <UserMenu />}
 
       <Modal isOpen={modalAberto === 'pessoa'} onClose={() => setModalAberto(null)}>
         <FormGenerico
@@ -212,6 +183,7 @@ export default function Header({ tela, onNotificationClick }) {
           onSubmit={handleSubmitPessoa}
         />
       </Modal>
+
       <Modal isOpen={modalAberto === 'veiculo'} onClose={() => setModalAberto(null)}>
         <FormGenerico
           titulo="Cadastro de Veiculo"
@@ -220,6 +192,7 @@ export default function Header({ tela, onNotificationClick }) {
           onSubmit={handleSubmitVeiculo}
         />
       </Modal>
+
       <Modal isOpen={modalAberto === 'permissao'} onClose={() => setModalAberto(null)}>
         <FormGenerico
           titulo="Cadastro de Permissão"
@@ -230,11 +203,9 @@ export default function Header({ tela, onNotificationClick }) {
           formData={formDataPermissao}
           setFormData={setFormDataPermissao}
         />
-
       </Modal>
-
-
-
-    </div >
+    </div>
   );
+  const userMenuRef = useRef(null);
+
 }
