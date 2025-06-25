@@ -15,6 +15,7 @@ function Login() {
   const { login } = useContext(AuthContext)
 
   const handleLogin = async () => {
+    if(email) {
     try {
       const response = await api.post('/login', {
         email,
@@ -35,6 +36,11 @@ function Login() {
       console.error('Erro ao fazer login:', error);
       setErroLogin('Email ou senha inválidos. Tente novamente.');
     }
+    } else {
+            setErroLogin('Email ou senha inválidos. Tente novamente.');
+      return  
+    }
+
   }
 
   return (

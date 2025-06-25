@@ -146,17 +146,18 @@
 .login-form button:hover {
   background-color: #5277d6;
 }
-
-/* ✅ Mensagem de erro */
 .erro-login {
   height: 20px;
-  margin-top: 15px;
-  color: red;
+  margin-top: 20px;
+  color: #ff0000;
   font-size: 0.9rem;
   text-align: center;
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 0.3s ease-in-out;
+  font-family: 'PixelEmulator', sans-serif;
+  font-size: 12px;
+  font-style: italic;
 }
 
 .erro-login.visivel {

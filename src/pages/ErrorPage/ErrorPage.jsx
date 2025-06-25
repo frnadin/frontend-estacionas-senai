@@ -1,6 +1,6 @@
 import React from 'react';
 import './ErrorPage.css';
-import errorImage from '../../../public/mario-rodando.gif';
+// import errorImage from '../../../public';
 import { FaHome } from "react-icons/fa";
 
 function ErrorPage({ statusCode, message }) {
@@ -12,7 +12,7 @@ function ErrorPage({ statusCode, message }) {
 
   return (
     <div className="error-page-container">
-      <img src={errorImage} alt="Página de Erro" className="error-image" />
+      {/* <img src={errorImage} alt="Página de Erro" className="error-image" /> */}
       <h1>{displayStatusCode}</h1>
       <p>{displayMessage}</p>
       <button onClick={() => window.location.href = '/'}>
