@@ -1,0 +1,48 @@
+import React, { useState, useMemo } from 'react';
+import './TabelaGenerica.css';
+export default function TabelaGenerica({ dados, colunas, filtros, titulo = "" }) {
+  const [busca, setBusca] = useState("");
+
+  const dadosFiltrados = useMemo(() => {
+    const buscaLower = busca.toLowerCase();
+    return dados.filter((item) =>
+      filtros.some((filtro) => {
+        const valor = item[filtro];
+        return valor && valor.toString().toLowerCase().includes(buscaLower);
+      })
+    );
+  }, [busca, dados, filtros]);
+return (
+  <div className="tabela-container">
+    <h1>{titulo}</h1>
+    <input
+      type="text"
+      placeholder="Buscar..."
+      value={busca}
+      onChange={(e) => setBusca(e.target.value)}
+      className="input-busca"
+    />
+    <div className="tabela-wrapper">
+      <table className="tabela">
+        <thead>
+          <tr>
+            {colunas.map((coluna, idx) => (
+              <th key={idx}>{coluna.rotulo}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {dadosFiltrados.map((item, idx) => (
+            <tr key={idx}>
+              {colunas.map((coluna, cid) => (
+                <td key={cid}>{item[coluna.chave]}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
+
+}
