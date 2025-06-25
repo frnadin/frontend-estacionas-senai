@@ -28,7 +28,7 @@ function Login() {
       localStorage.setItem('usuario', JSON.stringify(user))
       localStorage.setItem('token', token)
 
-      setErroLogin('') // limpa o erro se login for bem-sucedido
+      setErroLogin('') 
       navigate('/home');
 
     } catch (error) {

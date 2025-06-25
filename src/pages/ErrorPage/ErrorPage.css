@@ -1,0 +1,63 @@
+.error-page-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    min-height: 100vh; 
+    text-align: center;
+    background-color: #f8f8f8; 
+    color: #333;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    box-sizing: border-box; 
+}
+
+.error-image {
+    max-width: 30px; 
+    height: auto; 
+    margin-bottom: 30px;
+}
+
+.error-page-container h1 {
+    font-size: 3em; 
+    color: #ff1900; 
+    margin-bottom: 10px;
+    font-family: 'PixelEmulator', sans-serif;
+}
+
+.error-page-container p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    max-width: 600px; 
+    font-family: 'PixelEmulator', sans-serif;
+}
+
+.error-page-container button {
+    background-color: #005ba6;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'PixelEmulator', sans-serif;
+}
+
+.error-page-container button:hover {
+    background-color: #2980b9; 
+}
+
+@media (max-width: 768px) {
+    .error-image {
+        max-width: 80%;
+    }
+    .error-page-container h1 {
+        font-size: 2.5em;
+    }
+    .error-page-container p {
+        font-size: 1em;
+    }
+}
+
+

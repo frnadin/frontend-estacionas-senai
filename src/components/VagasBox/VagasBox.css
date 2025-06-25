@@ -22,13 +22,13 @@
   }
   
   .vagas-livres {
-    color: #00b050; /* verde */
+    color: #00b050; 
     font-size: 14px;
     margin: 8px 0;
   }
   
   .vagas-ocupadas {
-    color: #ff0000; /* vermelho */
+    color: #ff0000; 
     font-size: 14px;
     margin: 8px 0;
   }

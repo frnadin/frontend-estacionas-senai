@@ -9,10 +9,10 @@ import Modal from '../../components/Modal/Modal.jsx';
 import NotificationModal from '../../components/NotificationModal/NotificationModal.jsx'
 
 function Home() {
-  // 2. Crie o estado para controlar a visibilidade do modal de notificação
+  
   const [isNotificationModalOpen, setNotificationModalOpen] = useState(false);
 
-  // 3. Crie a função para alternar a visibilidade
+ 
   const toggleNotificationModal = () => {
     setNotificationModalOpen(prevState => !prevState);
   };
@@ -21,7 +21,6 @@ function Home() {
     <div className="home-layout">
       <SidebarMenu />
       <div className="home-main">
-        {/* 4. Passe a função para o Header como uma prop */}
         <Header tela="Home" onNotificationClick={toggleNotificationModal} />
 
         <div className="home-container">
@@ -29,7 +28,6 @@ function Home() {
         </div>
       </div>
       
-      {/* 5. Renderize o modal aqui, controlado pelo estado */}
       <NotificationModal show={isNotificationModalOpen} />
     </div>
   );
