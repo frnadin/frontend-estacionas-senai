@@ -28,7 +28,6 @@ export default function VagasBox() {
       }
     }
     fetchVagas();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

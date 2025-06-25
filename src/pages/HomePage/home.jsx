@@ -3,16 +3,15 @@ import React, { useState } from 'react'; // Importe o useState aqui
 import './home.css';
 import VagasBox from '../../components/VagasBox/VagasBox';
 import SidebarMenu from '../../components/SideBar/SideBarMenu';
-import NotificationModal from '../../components/NotificationModal/NotificationModal.jsx'; // 1. Importe o novo componente
-// import { useState } from 'react';
+import NotificationModal from '../../components/NotificationModal/NotificationModal.jsx'; 
 // import FormGenerico from '../../components/FormGenerico/FormGenerico.jsx';
 // import Modal from '../../components/Modal/Modal.jsx'; 
 
 function Home() {
-  // 2. Crie o estado para controlar a visibilidade do modal de notificação
+  
   const [isNotificationModalOpen, setNotificationModalOpen] = useState(false);
 
-  // 3. Crie a função para alternar a visibilidade
+ 
   const toggleNotificationModal = () => {
     setNotificationModalOpen(prevState => !prevState);
   };
@@ -21,7 +20,6 @@ function Home() {
     <div className="home-layout">
       <SidebarMenu />
       <div className="home-main">
-        {/* 4. Passe a função para o Header como uma prop */}
         <Header tela="Home" onNotificationClick={toggleNotificationModal} />
 
         <div className="home-container">
@@ -29,7 +27,6 @@ function Home() {
         </div>
       </div>
       
-      {/* 5. Renderize o modal aqui, controlado pelo estado */}
       <NotificationModal show={isNotificationModalOpen} />
     </div>
   );
