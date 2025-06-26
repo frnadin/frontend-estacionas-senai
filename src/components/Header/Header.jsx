@@ -4,7 +4,7 @@ import { FaCar, FaUserPlus, FaUserCircle, FaRegIdCard, FaPowerOff } from 'react-
 import { MdNotificationsNone } from 'react-icons/md';
 import FormGenerico from '../FormGenerico/FormGenerico.jsx';
 import Modal from '../Modal/Modal.jsx';
-import UserMenu from '../UserMenu/UserMenu.jsx'; // ADICIONADO AQUI
+import UserMenu from '../UserMenu/UserMenu.jsx';
 import { useNavigate } from 'react-router-dom';
 
 import { camposPessoa } from '../../data/camposPessoa.js';
@@ -14,8 +14,11 @@ import { camposPermissao as camposPermissaoBase } from '../../data/camposPermiss
 import { criarPessoa, listarPessoas } from '../../services/pessoaService.js';
 import { criarVeiculo, listarVeiculos, buscarVeiculosPorUsuario } from '../../services/veiculoService.js';
 import { criarPermissao } from '../../services/permissaoService.js';
+import Toast from '../Toast/Toast.jsx';
+
 
 export default function Header({ tela, onNotificationClick }) {
+  const [toastMessage, setToastMessage] = useState('');
   const [pessoas, setPessoas] = useState([]);
   const [veiculos, setVeiculos] = useState([]);
   const [camposVeiculo, setCamposVeiculo] = useState([]);
@@ -78,7 +81,7 @@ export default function Header({ tela, onNotificationClick }) {
     try {
       const response = await criarPessoa(dados);
       await fetchData();
-      console.log('pessoa criada' , response);
+      setToastMessage('Usuário criado com sucesso', response);
       setModalAberto(null);
     } catch (error) {
       alert('Erro ao criar usuário.', error);
@@ -88,11 +91,11 @@ export default function Header({ tela, onNotificationClick }) {
   const handleSubmitVeiculo = async (dados) => {
     try {
       const response = await criarVeiculo(dados);
-      alert('Veiculo criado com sucesso!', response);
+      setToastMessage('Veiculo criado com sucesso!', response);
       await fetchData();
       setModalAberto(null);
     } catch (error) {
-      alert('Erro ao criar veiculo', error);
+      setToastMessage('Erro ao criar veiculo', error);
     }
   };
 
@@ -120,11 +123,12 @@ export default function Header({ tela, onNotificationClick }) {
   const handleSubmitPermissao = async (dados) => {
     try {
       const response = await criarPermissao(dados);
-      alert('Permissão criada com sucesso!', response);
+      setToastMessage('Usuário criado com sucesso!');
       await fetchData();
       setModalAberto(null);
     } catch (error) {
-      alert('Erro ao criar permissão', error);
+      setToastMessage('Erro ao criar permissão')
+       console.log(error)
     }
   };
 
@@ -210,8 +214,15 @@ export default function Header({ tela, onNotificationClick }) {
             setFormData={setFormDataPermissao}
           />
         )}
- 
+
       </Modal>
+      {toastMessage && (
+        <Toast
+          message={toastMessage}
+          onClose={() => setToastMessage('')}
+        />
+      )}
+
     </div >
   );
 
