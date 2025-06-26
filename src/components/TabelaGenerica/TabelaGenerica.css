@@ -6,27 +6,25 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   max-width: 100%;
-      overflow: hidden; /* Evita que algo vaze do container */
 
   width: 90%;
-  height: 90%;
 }
 
 .tabela-wrapper {
     
-    flex: 1;
-  overflow: auto; 
+  flex: 1;
+  overflow: auto;
   width: 100%;
-  max-height: 400px;
+  height: min(500px, calc(100vh - 200px));
   border: 1px solid #eee;
   border-radius: 8px;
-  max-height: calc(100vh - 200px);
 }
 
 .tabela-container h1 {
   margin-bottom: 15px;
   font-size: 24px;
   color: #333;
+  max-height: 90%;
 }
 
 .input-busca {
@@ -76,7 +74,7 @@
 }
 
 .tabela tbody tr:hover {
-  background-color: #f9f9f9;
+  background-color: #44cc0021;
   transition: background-color 0.2s;
 }
 

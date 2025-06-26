@@ -16,9 +16,7 @@ export default function TabelaGenerica({ dados, colunas, filtros, titulo = "", o
         );
     }, [busca, dados, filtros]);
 
-    const toggleMenu = (index) => {
-        setLinhaSelecionada(linhaSelecionada === index ? null : index);
-    };
+
 
     return (
         <div className="tabela-container">
