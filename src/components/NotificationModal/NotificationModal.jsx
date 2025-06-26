@@ -2,7 +2,7 @@ import React from 'react';
 import './NotificationModal.css';
 
 const notifications = [
-  // { id: 1, icon: '📄', text: 'Você enviou sua tarefa para Backend do controle de estacionamento', time: '5 dias 22 horas atrás' },
+   // { id: 1, icon: '📄', text: 'Você enviou sua tarefa para Backend do controle de estacionamento', time: '5 dias 22 horas atrás' },
 ];
 
 function NotificationModal({ show }) {
