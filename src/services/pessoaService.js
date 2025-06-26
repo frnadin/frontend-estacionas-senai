@@ -24,3 +24,8 @@ export const deletarPessoa = async (id) => {
   const response = await api.delete(`/pessoas/${id}`);
   return response.data;
 };
+
+export const listarUsuarioLogado = async () => {
+  const response = await api.get('/pessoas/eu');
+  return response.data;
+};

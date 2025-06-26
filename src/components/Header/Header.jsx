@@ -77,10 +77,11 @@ export default function Header({ tela, onNotificationClick }) {
   const handleSubmitPessoa = async (dados) => {
     try {
       const response = await criarPessoa(dados);
-      await fetchData(); 
+      await fetchData();
+      console.log('pessoa criada' , response);
       setModalAberto(null);
     } catch (error) {
-      alert('Erro ao criar usuário.');
+      alert('Erro ao criar usuário.', error);
     }
   };
 
@@ -88,10 +89,10 @@ export default function Header({ tela, onNotificationClick }) {
     try {
       const response = await criarVeiculo(dados);
       alert('Veiculo criado com sucesso!', response);
-      await fetchData(); 
+      await fetchData();
       setModalAberto(null);
     } catch (error) {
-      alert('Erro ao criar veiculo');
+      alert('Erro ao criar veiculo', error);
     }
   };
 
@@ -101,7 +102,7 @@ export default function Header({ tela, onNotificationClick }) {
     if (nome === 'pessoa_id') {
       if (!valor) {
         atualizarOpcoesVeiculo([]);
-        setFormDataPermissao(prev => ({ ...prev, veiculo_id: '' })); 
+        setFormDataPermissao(prev => ({ ...prev, veiculo_id: '' }));
         return;
       }
       try {
@@ -109,6 +110,7 @@ export default function Header({ tela, onNotificationClick }) {
         atualizarOpcoesVeiculo(veiculos);
         setFormDataPermissao(prev => ({ ...prev, veiculo_id: '' }));
       } catch (error) {
+        console.log(error);
         atualizarOpcoesVeiculo([]);
         setFormDataPermissao(prev => ({ ...prev, veiculo_id: '' }));
       }
@@ -119,10 +121,10 @@ export default function Header({ tela, onNotificationClick }) {
     try {
       const response = await criarPermissao(dados);
       alert('Permissão criada com sucesso!', response);
-      await fetchData(); 
+      await fetchData();
       setModalAberto(null);
     } catch (error) {
-      alert('Erro ao criar permissão');
+      alert('Erro ao criar permissão', error);
     }
   };
 
@@ -185,27 +187,32 @@ export default function Header({ tela, onNotificationClick }) {
       </Modal>
 
       <Modal isOpen={modalAberto === 'veiculo'} onClose={() => setModalAberto(null)}>
-        <FormGenerico
-          titulo="Cadastro de Veiculo"
-          campos={camposVeiculo}
-          botaoTexto="Adicionar"
-          onSubmit={handleSubmitVeiculo}
-        />
+        {camposVeiculo.length > 0 && (
+          <FormGenerico
+            titulo="Cadastro de Veiculo"
+            campos={camposVeiculo}
+            botaoTexto="Adicionar"
+            onSubmit={handleSubmitVeiculo}
+          />
+        )}
       </Modal>
 
       <Modal isOpen={modalAberto === 'permissao'} onClose={() => setModalAberto(null)}>
-        <FormGenerico
-          titulo="Cadastro de Permissão"
-          campos={camposPermissao}
-          botaoTexto="Adicionar"
-          onSubmit={handleSubmitPermissao}
-          onCampoChange={handlePermissaoChange}
-          formData={formDataPermissao}
-          setFormData={setFormDataPermissao}
-        />
+
+        {camposPermissao.length > 0 && (
+          <FormGenerico
+            titulo="Cadastro de Permissão"
+            campos={camposPermissao}
+            botaoTexto="Adicionar"
+            onSubmit={handleSubmitPermissao}
+            onCampoChange={handlePermissaoChange}
+            formData={formDataPermissao}
+            setFormData={setFormDataPermissao}
+          />
+        )}
+ 
       </Modal>
-    </div>
+    </div >
   );
-  const userMenuRef = useRef(null);
 
 }

@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import './TabelaGenerica.css';
-import { FaInfoCircle, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaInfoCircle, FaEdit, FaTrash, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 export default function TabelaGenerica({ dados, colunas, filtros, titulo = "", onEditar, onRemover, onDetalhes }) {
     const [busca, setBusca] = useState("");
-    const [linhaSelecionada, setLinhaSelecionada] = useState(null);
+
 
     const dadosFiltrados = useMemo(() => {
         const buscaLower = busca.toLowerCase();
@@ -17,6 +17,9 @@ export default function TabelaGenerica({ dados, colunas, filtros, titulo = "", o
     }, [busca, dados, filtros]);
 
 
+    const acessarValorAninhado = (obj, caminho) => {
+        return caminho.split('.').reduce((acc, parte) => acc?.[parte], obj);
+    };
 
     return (
         <div className="tabela-container">
@@ -41,23 +44,40 @@ export default function TabelaGenerica({ dados, colunas, filtros, titulo = "", o
                     <tbody>
                         {dadosFiltrados.map((item, idx) => (
                             <tr key={idx}>
-                                {colunas.map((coluna, cid) => (
-                                    <td key={cid}>{item[coluna.chave]}</td>
+                                {colunas.map(coluna => (
+                                    <td key={coluna.chave}>
+                                        {(() => {
+                                            const valor = acessarValorAninhado(item, coluna.chave);
+
+                                            if (typeof valor === "string" && !isNaN(Date.parse(valor)) && valor.includes("T")) {
+                                                const data = new Date(valor);
+                                                return data.toLocaleDateString("pt-BR");
+                                            }
+                                            if (coluna.chave === "autorizado") {
+                                                return valor
+                                                    ? <FaCheckCircle color="green" style={{ display: 'block', margin: '0 auto' }} />
+                                                    : <FaTimesCircle color="red" style={{ display: 'block', margin: '0 auto' }} />;
+                                            }
+
+
+                                            return valor;
+                                        })()}
+                                    </td>
                                 ))}
                                 <td>
-                             
-                                        <div className="menu-acoes">
-                                            <button onClick={() => onDetalhes?.(item)} title="Detalhes">
-                                                <FaInfoCircle size={18} />
-                                            </button>
-                                            <button onClick={() => onEditar?.(item)} title="Editar">
-                                                <FaEdit size={18} />
-                                            </button>
-                                            <button onClick={() => onRemover?.(item)} title="Remover">
-                                                <FaTrash size={18} />
-                                            </button>
-                                        </div>
-                                    
+
+                                    <div className="menu-acoes">
+                                        <button onClick={() => onDetalhes?.(item)} title="Detalhes">
+                                            <FaInfoCircle size={18} />
+                                        </button>
+                                        <button onClick={() => onEditar?.(item)} title="Editar">
+                                            <FaEdit size={18} />
+                                        </button>
+                                        <button onClick={() => onRemover?.(item)} title="Remover">
+                                            <FaTrash size={18} />
+                                        </button>
+                                    </div>
+
 
                                 </td>
                             </tr>
