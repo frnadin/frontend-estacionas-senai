@@ -5,21 +5,22 @@ import { FaInfoCircle, FaEdit, FaTrash, FaCheckCircle, FaTimesCircle } from 'rea
 export default function TabelaGenerica({ dados, colunas, filtros, titulo = "", onEditar, onRemover, onDetalhes }) {
     const [busca, setBusca] = useState("");
 
-
+    const acessarValorAninhado = (obj, caminho) => {
+        return caminho.split('.').reduce((acc, parte) => acc?.[parte], obj);
+    };
+    
     const dadosFiltrados = useMemo(() => {
         const buscaLower = busca.toLowerCase();
         return dados.filter((item) =>
             filtros.some((filtro) => {
-                const valor = item[filtro];
+                const valor = acessarValorAninhado(item, filtro);
                 return valor && valor.toString().toLowerCase().includes(buscaLower);
             })
         );
     }, [busca, dados, filtros]);
 
 
-    const acessarValorAninhado = (obj, caminho) => {
-        return caminho.split('.').reduce((acc, parte) => acc?.[parte], obj);
-    };
+
 
     return (
         <div className="tabela-container">
