@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, forwardRef } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { listarUsuarioLogado } from '../../services/pessoaService';
 import './UserMenu.css';
 
-function UserMenu() {
+const UserMenu = forwardRef((props, ref) => {
   const { usuario } = useContext(AuthContext);
   const [dadosPessoa, setDadosPessoa] = useState(null);
 
@@ -18,14 +18,12 @@ function UserMenu() {
         console.error('Erro ao buscar dados da pessoa:', erro);
       }
     };
-    console.log('user logado => ', usuario);
 
     carregarDados();
   }, [usuario]);
 
-
   return (
-    <div className="user-menu">
+    <div className="user-menu" ref={ref}>
       {dadosPessoa ? (
         <>
           <div className="profile-image-container">
@@ -40,25 +38,23 @@ function UserMenu() {
             )}
           </div>
 
-
           <div className="user-info">
             <p className="user-name"><strong>{dadosPessoa.name}</strong></p>
             <p className="email">{dadosPessoa.email}</p>
             <p className="type">{dadosPessoa.type}</p>
           </div>
+
           <ul className="menu-options">
             <li onClick={() => alert('fazer tela para editar user?')}>Gerenciar conta</li>
             <li onClick={() => alert('em produção...')}>Configurações</li>
             <li onClick={() => alert('em produção...')}>Ajuda</li>
           </ul>
-
         </>
       ) : (
         <p>Carregando dados...</p>
       )}
     </div>
   );
-}
+});
 
 export default UserMenu;
-

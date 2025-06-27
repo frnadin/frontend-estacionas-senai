@@ -13,4 +13,4 @@ export const criarRegistroAdmin = async (dados) => {
 export const listarRegistros = async () => {
   const response = await api.get('/registros');
   return response.data;
-};
+};  

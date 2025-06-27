@@ -53,7 +53,7 @@ export default function TabelaGenerica({ dados, colunas, filtros, titulo = "", o
                                                 cursor: 'default',
                                             }}
                                             title={String(acessarValorAninhado(item, coluna.chave))}
-                                        >
+                                        >   
                                             {(() => {
                                                 const valor = acessarValorAninhado(item, coluna.chave);
 
