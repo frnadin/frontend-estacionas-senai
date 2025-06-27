@@ -32,13 +32,13 @@ export default function RegistroForm({ onRegistroCriado }) {
     }
   }, [usuario]);
 
-useEffect(() => {
-  if (usuario?.id) {
-    buscarVeiculosDaPessoa(usuario.id).then(dados => {
-      console.log("Teste direto buscarVeiculosDaPessoa:", dados);
-    });
-  }
-}, [usuario]);
+  useEffect(() => {
+    if (usuario?.id) {
+      buscarVeiculosDaPessoa(usuario.id).then(dados => {
+        console.log("Teste direto buscarVeiculosDaPessoa:", dados);
+      });
+    }
+  }, [usuario]);
 
   useEffect(() => {
     const ehPessoaFisica = ['aluno', 'professor', 'funcionario'].includes(usuario?.type);
@@ -54,7 +54,7 @@ useEffect(() => {
       carregarPessoas();
     }
   }, [usuario]);
-  
+
   useEffect(() => {
     const carregarVeiculos = async () => {
       if (!usuario) {
@@ -73,7 +73,7 @@ useEffect(() => {
             setVeiculos([]);
           }
         } else {
-          
+
           // Admin ou outros: carrega veículos da pessoa selecionada no select
           if (formData.pessoa_id) {
             const dados = await buscarVeiculosPorUsuario(formData.pessoa_id);
@@ -137,20 +137,24 @@ useEffect(() => {
         <label>Pessoa:</label>
         <select
           name="pessoa_id"
-          value={formData.pessoa_id}
+          value={formData.pessoa_id || (isPessoaFisica ? usuario?.id : '')}
           onChange={handleChange}
           required
           disabled={isPessoaFisica}
         >
-          <option value="">Selecione uma pessoa</option>
-          {isPessoaFisica && usuario?.id ? (
-            <option value={usuario.id}>{usuario.name}</option>
+          {!isPessoaFisica && <option value="">Selecione uma pessoa</option>}
+
+          {isPessoaFisica ? (
+            <option value={usuario?.id}>
+              {usuario?.name || usuario?.nome || 'Usuário'}
+            </option>
           ) : (
             pessoas.map(p => (
-              <option key={p.id} value={p.id}>{p.name}</option>
+              <option key={p.id} value={p.id}>{p.name || p.nome}</option>
             ))
           )}
         </select>
+
       </div>
 
       <div className="form-group">
