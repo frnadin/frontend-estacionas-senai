@@ -10,6 +10,14 @@ export const listarVeiculos = async () => {
   return response.data;
 };
 
+export const buscarVeiculosDaPessoa = async () => {
+  const response = await api.get(`/veiculos/meus`);
+  console.log(response);
+  
+  return response.data;
+};
+
+
 export const buscarVeiculoPorId = async (id) => {
   const response = await api.get(`/veiculos/${id}`);
   return response.data;
@@ -26,7 +34,7 @@ export const deletarVeiculo = async (id) => {
 };
 
 export const buscarVeiculosPorUsuario = async (usuarioId) => {
-  const response = await api.get(`/veiculos/dono/${usuarioId}`);
+  const response = await api.get(`/veiculos/dono/${usuarioId}`);  
   return response.data;
 };
 

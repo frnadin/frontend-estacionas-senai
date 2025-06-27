@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { criarRegistro } from '../../services/registroService';
 import { listarPessoas } from '../../services/pessoaService';
-import { buscarVeiculosPorUsuario } from '../../services/veiculoService';
+import { buscarVeiculosPorUsuario, buscarVeiculosDaPessoa } from '../../services/veiculoService';
 import './RegistroForm.css'
-
-
+import Toast from '../Toast/Toast';
+import { AuthContext } from '../../context/AuthContext';
 export default function RegistroForm({ onRegistroCriado }) {
+  const { usuario } = useContext(AuthContext);
+
+
+  console.log('usuario no RegistroForm:', usuario);
+
+  const [toastMessage, setToastMessage] = useState('');
+
   const [formData, setFormData] = useState({
     pessoa_id: '',
     veiculo_id: '',
@@ -16,33 +23,75 @@ export default function RegistroForm({ onRegistroCriado }) {
   const [veiculos, setVeiculos] = useState([]);
 
   useEffect(() => {
-    const carregarPessoas = async () => {
-      try {
-        const dados = await listarPessoas();
-        setPessoas(dados);
-      } catch (error) {
-        console.error("Erro ao carregar pessoas", error);
-      }
-    };
-    carregarPessoas();
-  }, []);
+    const ehPessoaFisica = ['aluno', 'professor', 'funcionario'].includes(usuario?.type);
+    if (ehPessoaFisica && usuario?.id) {
+      setFormData(prev => ({
+        ...prev,
+        pessoa_id: usuario.id
+      }));
+    }
+  }, [usuario]);
+
+useEffect(() => {
+  if (usuario?.id) {
+    buscarVeiculosDaPessoa(usuario.id).then(dados => {
+      console.log("Teste direto buscarVeiculosDaPessoa:", dados);
+    });
+  }
+}, [usuario]);
 
   useEffect(() => {
-    const carregarVeiculos = async () => {
-      if (formData.pessoa_id) {
+    const ehPessoaFisica = ['aluno', 'professor', 'funcionario'].includes(usuario?.type);
+    if (!ehPessoaFisica) {
+      const carregarPessoas = async () => {
         try {
-          const dados = await buscarVeiculosPorUsuario(formData.pessoa_id);
-          setVeiculos(dados);
+          const dados = await listarPessoas();
+          setPessoas(dados);
         } catch (error) {
-          console.error("Erro ao carregar veículos do usuário", error);
-          setVeiculos([]);
+          console.error("Erro ao carregar pessoas", error);
         }
-      } else {
+      };
+      carregarPessoas();
+    }
+  }, [usuario]);
+  
+  useEffect(() => {
+    const carregarVeiculos = async () => {
+      if (!usuario) {
+        setVeiculos([]);
+        return;
+      }
+
+      const ehPessoaFisica = ['aluno', 'professor', 'funcionario'].includes(usuario.type);
+
+      try {
+        if (ehPessoaFisica) {
+          if (usuario.id) {
+            const dados = await buscarVeiculosDaPessoa(usuario.id);
+            setVeiculos(dados);
+          } else {
+            setVeiculos([]);
+          }
+        } else {
+          
+          // Admin ou outros: carrega veículos da pessoa selecionada no select
+          if (formData.pessoa_id) {
+            const dados = await buscarVeiculosPorUsuario(formData.pessoa_id);
+            setVeiculos(dados);
+          } else {
+            setVeiculos([]);
+          }
+        }
+      } catch (error) {
+        console.error("Erro ao carregar veículos da pessoa", error);
         setVeiculos([]);
       }
     };
+
     carregarVeiculos();
-  }, [formData.pessoa_id]);
+  }, [usuario, formData.pessoa_id]);
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,30 +104,52 @@ export default function RegistroForm({ onRegistroCriado }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       await criarRegistro(formData);
-      alert("Registro criado com sucesso!");
-      setFormData({ pessoa_id: '', veiculo_id: '', tipo: 'entrada' });
+      setToastMessage('Registro criado com sucesso!');
+      const ehPessoaFisica = ['aluno', 'professor', 'funcionario'].includes(usuario?.type);
+      setFormData({
+        pessoa_id: ehPessoaFisica ? usuario.id : '',
+        veiculo_id: '',
+        tipo: 'entrada',
+      });
       setVeiculos([]);
       if (onRegistroCriado) onRegistroCriado();
     } catch (error) {
+      const mensagemErro = error.response?.data?.error || "Erro ao criar registro.";
       console.error("Erro ao criar registro", error);
-      alert("Erro ao criar registro.");
+      setToastMessage(mensagemErro);
     }
   };
 
+  const isPessoaFisica = ['aluno', 'professor', 'funcionario'].includes(usuario?.type);
+  if (!usuario) {
+    return <p>Carregando usuário...</p>;
+  }
   return (
-    <form onSubmit={handleSubmit} className="registro-form" style={{ margin: '0 auto' }}>
 
+
+    <form onSubmit={handleSubmit} className="registro-form" style={{ margin: '0 auto' }}>
       <h2 className="form-title">Criar Registro</h2>
 
       <div className="form-group">
         <label>Pessoa:</label>
-        <select name="pessoa_id" value={formData.pessoa_id} onChange={handleChange} required>
+        <select
+          name="pessoa_id"
+          value={formData.pessoa_id}
+          onChange={handleChange}
+          required
+          disabled={isPessoaFisica}
+        >
           <option value="">Selecione uma pessoa</option>
-          {pessoas.map(p => (
-            <option key={p.id} value={p.id}>{p.name}</option>
-          ))}
+          {isPessoaFisica && usuario?.id ? (
+            <option value={usuario.id}>{usuario.name}</option>
+          ) : (
+            pessoas.map(p => (
+              <option key={p.id} value={p.id}>{p.name}</option>
+            ))
+          )}
         </select>
       </div>
 
@@ -99,11 +170,17 @@ export default function RegistroForm({ onRegistroCriado }) {
           <option value="saida">Saída</option>
         </select>
       </div>
+
       <div className="form-group form-group-botao">
         <button type="submit" className="botao-submit">Registrar</button>
       </div>
 
+      {toastMessage && (
+        <Toast
+          message={toastMessage}
+          onClose={() => setToastMessage('')}
+        />
+      )}
     </form>
-
   );
 }

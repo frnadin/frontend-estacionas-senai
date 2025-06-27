@@ -12,7 +12,7 @@ import { camposVeiculos as camposVeiculosBase } from '../../data/camposVeiculo.j
 import { camposPermissao as camposPermissaoBase } from '../../data/camposPermissao.js';
 
 import { criarPessoa, listarPessoas } from '../../services/pessoaService.js';
-import { criarVeiculo, listarVeiculos, buscarVeiculosPorUsuario, criarMeuVeiculo } from '../../services/veiculoService.js';
+import { criarVeiculo, buscarVeiculosPorUsuario, criarMeuVeiculo } from '../../services/veiculoService.js';
 import { criarPermissao } from '../../services/permissaoService.js';
 import Toast from '../Toast/Toast.jsx';
 
@@ -22,13 +22,13 @@ export default function Header({ tela, onNotificationClick, onPerfilClick }) {
   const { usuario } = useContext(AuthContext);
   const [toastMessage, setToastMessage] = useState('');
   const [pessoas, setPessoas] = useState([]);
-  const [veiculos, setVeiculos] = useState([]);
   const [camposVeiculo, setCamposVeiculo] = useState([]);
   const [camposPermissao, setCamposPermissao] = useState([]);
   const [formDataPermissao, setFormDataPermissao] = useState({});
   const navigate = useNavigate();
   const [modalAberto, setModalAberto] = useState(null);
 
+console.log(pessoas);
 
   const fetchData = useCallback(async () => {
     try {
@@ -126,6 +126,8 @@ export default function Header({ tela, onNotificationClick, onPerfilClick }) {
   const handleSubmitPermissao = async (dados) => {
     try {
       const response = await criarPermissao(dados);
+      console.log(response);
+      
       setToastMessage('Usuário criado com sucesso!');
       await fetchData();
       setModalAberto(null);
@@ -156,6 +158,7 @@ export default function Header({ tela, onNotificationClick, onPerfilClick }) {
   const camposVeiculoUser = camposVeiculosBase.filter(campo => campo.nome !== 'id_usuario');
 
 
+  // Decide os campos e o handler baseado no tipo de usuário:
   const camposVeiculoAtivos = usuario?.type === 'administrador'
     ? camposVeiculo
     : camposVeiculoUser;
@@ -165,7 +168,9 @@ export default function Header({ tela, onNotificationClick, onPerfilClick }) {
     : async (dados) => {
       try {
         const response = await criarMeuVeiculo(dados);
-        setToastMessage('Veículo criado com sucesso!', response);
+        setToastMessage('Veículo criado com sucesso!');
+        console.log(response);
+        
         await fetchData();
         setModalAberto(null);
       } catch (error) {

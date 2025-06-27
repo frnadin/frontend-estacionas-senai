@@ -1,36 +1,33 @@
+import React, { useState, useEffect, useRef } from 'react';
 import Header from '../../components/Header/Header.jsx';
-import React, { useState, useEffect } from 'react';
-import './PermissoesPage.css';
 import SidebarMenu from '../../components/SideBar/SideBarMenu.jsx';
-import { listarPermissoes } from '../../services/permissaoService.js';
-import NotificationModal from '../../components/NotificationModal/NotificationModal.jsx'
+import NotificationModal from '../../components/NotificationModal/NotificationModal.jsx';
 import TabelaGenerica from '../../components/TabelaGenerica/TabelaGenerica.jsx';
-import { permissoesConfig } from '../../data/tabelasConfig.js'
+import { listarPermissoes } from '../../services/permissaoService.js';
+import { permissoesConfig } from '../../data/tabelasConfig.js';
+import { usePopup } from '../../hooks/usePopup.js';
+import './PermissoesPage.css';
+import UserMenu from '../../components/UserMenu/UserMenu.jsx';
 
 function Permissoes() {
+  const [permissoes, setPermissoes] = useState([]);
 
-  const [isNotificationModalOpen, setNotificationModalOpen] = useState(false);
-  const [permissoes, setVeiculos] = useState([]);
-
+  const notificationRef = useRef(null);
+  const userMenuRef = useRef(null);
+  const { popupAtivo, togglePopup } = usePopup({ notificationRef, userMenuRef });
+  
   useEffect(() => {
-    async function carregarUsuarios() {
+    async function carregarPermissoes() {
       try {
         const data = await listarPermissoes();
         console.log(data);
-        
-        setVeiculos(data);
+        setPermissoes(data);
       } catch (error) {
-        console.error('Erro ao carregar usuários:', error);
+        console.error('Erro ao carregar permissões:', error);
       }
     }
-    carregarUsuarios();
+    carregarPermissoes();
   }, []);
-
-
-
-  const toggleNotificationModal = () => {
-    setNotificationModalOpen(prevState => !prevState);
-  };
 
   const handleEditar = (usuario) => {
     console.log(`Editar usuário: ${usuario.nome}`);
@@ -42,12 +39,15 @@ function Permissoes() {
     }
   };
 
-
   return (
     <div className="home-layout">
       <SidebarMenu />
       <div className="home-main">
-        <Header tela="Permissoes" onNotificationClick={toggleNotificationModal} />
+        <Header
+          tela="Permissões"
+          onNotificationClick={() => togglePopup('notificacao')}
+          onPerfilClick={() => togglePopup('perfil')}
+        />
 
         <div className="home-container">
           <TabelaGenerica
@@ -65,10 +65,10 @@ function Permissoes() {
         </div>
       </div>
 
-      <NotificationModal show={isNotificationModalOpen} />
+      {popupAtivo === 'notificacao' && <NotificationModal ref={notificationRef} show={true} />}
+      {popupAtivo === 'perfil' && <UserMenu ref={userMenuRef} />}
     </div>
   );
 }
 
 export default Permissoes;
-

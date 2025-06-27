@@ -10,18 +10,16 @@ function FormGenerico({
     formData: propFormData,
     setFormData: propSetFormData
 }) {
-    // Estado interno usado só se props não vierem
     const [formDataInterno, setFormDataInterno] = useState({});
 
-    // Decide qual estado usar: externo (controlado) ou interno
     const formData = propFormData !== undefined ? propFormData : formDataInterno;
     const setFormData = propSetFormData !== undefined ? propSetFormData : setFormDataInterno;
 
     useEffect(() => {
-        // Se estiver usando estado interno, resetar ao mudar campos
         if (propFormData === undefined) {
             setFormDataInterno({});
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [campos]);
 
     const handleChange = (e, nome, tipo) => {
@@ -80,7 +78,7 @@ function FormGenerico({
                                     value={formData[campo.nome] || ''}
                                     onChange={(e) => handleChange(e, campo.nome, campo.tipo)}
                                     required={campo.obrigatorio}
-                                    placeholder={campo.placeholder || '-'}  // <<< aqui!
+                                    placeholder={campo.placeholder || '-'} 
 
                                 />
                             )}

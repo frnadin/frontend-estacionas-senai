@@ -1,5 +1,5 @@
 import Header from '../../components/Header/Header.jsx';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './RegistroPage.css';
 import SidebarMenu from '../../components/SideBar/SideBarMenu.jsx';
 import { listarRegistros } from '../../services/registroService.js';
@@ -7,30 +7,33 @@ import NotificationModal from '../../components/NotificationModal/NotificationMo
 import TabelaGenerica from '../../components/TabelaGenerica/TabelaGenerica.jsx';
 import { registrosConfig } from '../../data/tabelasConfig.js'
 import RegistroForm from '../../components/RegistroForm/RegistroForm.jsx';
+import { usePopup } from '../../hooks/usePopup.js';
+import UserMenu from '../../components/UserMenu/UserMenu.jsx';
 
 function Registros() {
 
-  const [isNotificationModalOpen, setNotificationModalOpen] = useState(false);
   const [registros, setRegistros] = useState([]);
 
-useEffect(() => {
+  const notificationRef = useRef(null);
+  const userMenuRef = useRef(null);
+  const { popupAtivo, togglePopup } = usePopup({ notificationRef, userMenuRef });
+
+
   async function carregarRegistros() {
+
     try {
       const data = await listarRegistros();
-      console.log(data);
       setRegistros(data);
     } catch (error) {
       console.error('Erro ao carregar registros:', error);
     }
   }
-  carregarRegistros();
-}, []);
+
+  useEffect(() => {
+    carregarRegistros();
+  }, []);
 
 
-
-  const toggleNotificationModal = () => {
-    setNotificationModalOpen(prevState => !prevState);
-  };
 
   const handleEditar = (usuario) => {
     console.log(`Editar usuário: ${usuario.nome}`);
@@ -47,10 +50,17 @@ useEffect(() => {
     <div className="home-layout">
       <SidebarMenu />
       <div className="home-main">
-        <Header tela="Registros" onNotificationClick={toggleNotificationModal} />
+        <Header
+          tela="Registros"
+          onNotificationClick={() => togglePopup('notificacao')}
+          onPerfilClick={() => togglePopup('perfil')}
+        />
+
+        {popupAtivo === 'notificacao' && <NotificationModal ref={notificationRef} show={true} />}
+        {popupAtivo === 'perfil' && <UserMenu ref={userMenuRef} />}
 
         <div className="home-container">
-          <RegistroForm></RegistroForm>
+          <RegistroForm onRegistroCriado={carregarRegistros}></RegistroForm>
           <TabelaGenerica
             titulo={registrosConfig.titulo}
             dados={registros}
@@ -66,7 +76,6 @@ useEffect(() => {
         </div>
       </div>
 
-      <NotificationModal show={isNotificationModalOpen} />
     </div>
   );
 }
