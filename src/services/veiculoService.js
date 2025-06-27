@@ -29,3 +29,8 @@ export const buscarVeiculosPorUsuario = async (usuarioId) => {
   const response = await api.get(`/veiculos/dono/${usuarioId}`);
   return response.data;
 };
+
+export const criarMeuVeiculo = async (dados) => {
+  const response = await api.post('/veiculos/meus', dados);
+  return response.data;
+};

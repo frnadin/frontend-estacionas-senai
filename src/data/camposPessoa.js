@@ -10,8 +10,10 @@ export const camposPessoa = [
     tipo: "select", 
     obrigatorio: true,
     opcoes: [
+      { label: "Visitante", valor: "visitante" },
       { label: "Aluno", valor: "aluno" },
       { label: "Professor", valor: "professor" },
+      { label: "Funcionario", valor: "funcionario" },
       { label: "Administrador", valor: "administrador" }
     ]
   },

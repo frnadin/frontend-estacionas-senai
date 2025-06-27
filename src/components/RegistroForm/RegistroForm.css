@@ -3,20 +3,19 @@
   padding: 24px 30px;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  margin: 40px auto;
-  width: 90%;
+  width: 95%;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 10px; /* espaço entre os campos */
+  gap: 10px;
+  margin: 0 !important;
 }
 
 .registro-form h2 {
-  margin-bottom: 14px;
-  font-weight: 700;
-  font-size: 1.8rem;
-  text-align: center;
+  flex-basis: 100%;
+  text-align: left;
+  font-size: 22px;
+  margin-bottom: 8px;
   color: #222;
 }
 
@@ -24,13 +23,15 @@
   display: flex;
   flex-direction: column;
   padding: 0;
+  flex: 1;
+  min-height: fit-content;
 }
 
 .form-group label {
-  margin-bottom: 6px;
-  font-weight: 600;
-  font-size: 1rem;
-  color: #555;
+  font-size: 14px;
+  margin-bottom: 4px;
+  font-weight: bold;
+  color: #444;
 }
 
 .registro-form label {
@@ -42,15 +43,12 @@
 }
 
 .registro-form select {
-  width: 100%;
-  /* padding: 10px 14px; */
-  margin-bottom: 20px;
+  padding: 10px;
   border-radius: 6px;
   border: 1.8px solid #ccc;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
   background-color: #fafafa;
-  cursor: pointer;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
 }
 
 .registro-form select:focus:not(:disabled) {
@@ -64,17 +62,45 @@
   cursor: not-allowed;
 }
 
-.registro-form button {
-  /* width: 100%; */
-  padding: 12px;
+.form-group-botao {
+  margin-top: 22px;
+  flex-basis: 100%; 
+  display: flex;
+  justify-content: flex-end; /* alinha o botão à direita ou mude pra center se quiser centralizado */
+}
+
+.botao-submit {
+  padding: 10px 24px;
   background-color: #254AA5;
   color: white;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.25s ease;
+  height: 44px;
+  margin-left: auto; /* Isso faz o botão ir pro final da linha */
+}
+
+.botao-submit:hover {
+  background-color: #1674d7;
+}
+
+/* .registro-form button {
+  padding: 12px 24px;
+  background-color: #254aa5;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  height: 44px;
+  align-self: center;
+} */
+
+.registro-form button:hover {
+  background-color: #1674d7;
 }
 
 .registro-form button:hover {

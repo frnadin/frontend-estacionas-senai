@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import './Header.css';
 import { FaCar, FaUserPlus, FaUserCircle, FaRegIdCard, FaPowerOff } from 'react-icons/fa';
 import { MdNotificationsNone } from 'react-icons/md';
@@ -12,21 +12,23 @@ import { camposVeiculos as camposVeiculosBase } from '../../data/camposVeiculo.j
 import { camposPermissao as camposPermissaoBase } from '../../data/camposPermissao.js';
 
 import { criarPessoa, listarPessoas } from '../../services/pessoaService.js';
-import { criarVeiculo, listarVeiculos, buscarVeiculosPorUsuario } from '../../services/veiculoService.js';
+import { criarVeiculo, listarVeiculos, buscarVeiculosPorUsuario, criarMeuVeiculo } from '../../services/veiculoService.js';
 import { criarPermissao } from '../../services/permissaoService.js';
 import Toast from '../Toast/Toast.jsx';
 
+import { AuthContext } from '../../context/AuthContext.jsx';
 
 export default function Header({ tela, onNotificationClick, onPerfilClick }) {
+  const { usuario } = useContext(AuthContext);
   const [toastMessage, setToastMessage] = useState('');
-  const [pessoas, setPessoas] = useState([]); 
+  const [pessoas, setPessoas] = useState([]);
   const [veiculos, setVeiculos] = useState([]);
   const [camposVeiculo, setCamposVeiculo] = useState([]);
   const [camposPermissao, setCamposPermissao] = useState([]);
   const [formDataPermissao, setFormDataPermissao] = useState({});
   const navigate = useNavigate();
   const [modalAberto, setModalAberto] = useState(null);
- 
+
 
   const fetchData = useCallback(async () => {
     try {
@@ -70,6 +72,7 @@ export default function Header({ tela, onNotificationClick, onPerfilClick }) {
       console.error('Erro ao buscar dados:', error);
     }
   }, []);
+
 
   useEffect(() => {
     if (modalAberto === 'pessoa' || modalAberto === 'permissao' || modalAberto === 'veiculo') {
@@ -128,7 +131,7 @@ export default function Header({ tela, onNotificationClick, onPerfilClick }) {
       setModalAberto(null);
     } catch (error) {
       setToastMessage('Erro ao criar permissão')
-       console.log(error)
+      console.log(error)
     }
   };
 
@@ -150,36 +153,69 @@ export default function Header({ tela, onNotificationClick, onPerfilClick }) {
     navigate('/login');
   };
 
+  const camposVeiculoUser = camposVeiculosBase.filter(campo => campo.nome !== 'id_usuario');
+
+
+  const camposVeiculoAtivos = usuario?.type === 'administrador'
+    ? camposVeiculo
+    : camposVeiculoUser;
+
+  const handleSubmitVeiculoAtivo = usuario?.type === 'administrador'
+    ? handleSubmitVeiculo
+    : async (dados) => {
+      try {
+        const response = await criarMeuVeiculo(dados);
+        setToastMessage('Veículo criado com sucesso!', response);
+        await fetchData();
+        setModalAberto(null);
+      } catch (error) {
+        setToastMessage('Erro ao criar veículo', error);
+      }
+    };
+
   return (
     <div className="header">
       <div id='space'></div>
       <h2 className="header-title">{tela}</h2>
-
       <div className="header-icons">
-        <button onClick={() => setModalAberto('pessoa')} className="btn-teste-formulario">
-          <FaUserPlus />
-        </button>
-        <button onClick={() => setModalAberto('veiculo')} className="btn-teste-formulario">
-          <FaCar />
-        </button>
-        <button onClick={() => setModalAberto('permissao')} className="btn-teste-formulario">
-          <FaRegIdCard />
-        </button>
+
+        {/* USER */}
+        {usuario?.type !== 'administrador' && (
+          <button onClick={() => setModalAberto('veiculo')} className="btn-teste-formulario">
+            <FaCar />
+          </button>
+        )}
+
+        {/* ADM */}
+        {usuario?.type === 'administrador' && (
+          <>
+            <button onClick={() => setModalAberto('pessoa')} className="btn-teste-formulario">
+              <FaUserPlus />
+            </button>
+
+            <button onClick={() => setModalAberto('veiculo')} className="btn-teste-formulario">
+              <FaCar />
+            </button>
+
+            <button onClick={() => setModalAberto('permissao')} className="btn-teste-formulario">
+              <FaRegIdCard />
+            </button>
+          </>
+        )}
 
         <button onClick={onNotificationClick}>
-  <MdNotificationsNone />
-</button>
+          <MdNotificationsNone />
+        </button>
 
-<button onClick={onPerfilClick}>
-  <FaUserCircle />
-</button>
+        <button onClick={onPerfilClick}>
+          <FaUserCircle />
+        </button>
 
-<button onClick={handleLogout}>
-  <FaPowerOff />
-</button>
-
+        <button onClick={handleLogout}>
+          <FaPowerOff />
+        </button>
       </div>
-    
+
 
       <Modal isOpen={modalAberto === 'pessoa'} onClose={() => setModalAberto(null)}>
         <FormGenerico
@@ -191,15 +227,16 @@ export default function Header({ tela, onNotificationClick, onPerfilClick }) {
       </Modal>
 
       <Modal isOpen={modalAberto === 'veiculo'} onClose={() => setModalAberto(null)}>
-        {camposVeiculo.length > 0 && (
+        {camposVeiculoAtivos.length > 0 && (
           <FormGenerico
-            titulo="Cadastro de Veiculo"
-            campos={camposVeiculo}
+            titulo="Cadastro de Veículo"
+            campos={camposVeiculoAtivos}
             botaoTexto="Adicionar"
-            onSubmit={handleSubmitVeiculo}
+            onSubmit={handleSubmitVeiculoAtivo}
           />
         )}
       </Modal>
+
 
       <Modal isOpen={modalAberto === 'permissao'} onClose={() => setModalAberto(null)}>
 

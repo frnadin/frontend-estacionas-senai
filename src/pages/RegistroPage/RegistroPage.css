@@ -1,8 +1,0 @@
-.home-container {
-  min-height: fit-content;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 20px;
-  align-items: center;
-}

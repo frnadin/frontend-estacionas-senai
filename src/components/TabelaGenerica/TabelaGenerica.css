@@ -1,6 +1,4 @@
 .tabela-container {
-  /* display: flex;
-  flex-direction: column; */
   padding: 20px;
   background-color: #fdfdfd;
   border-radius: 12px;
@@ -8,11 +6,10 @@
   max-width: 100%;
 
   width: 95%;
-  height: 90%;
+  height: 95%;
 }
 
 .tabela-wrapper {
-    
   flex: 1;
   overflow: auto;
   width: 100%;
@@ -45,7 +42,7 @@
 }
 .tabela {
   width: 100%;
-  min-width: 800px; 
+  min-width: 800px;
   border-collapse: collapse;
   font-size: 15px;
   background-color: white;
@@ -57,9 +54,9 @@
   padding: 12px 16px;
   border-bottom: 1px solid #e0e0e0;
   color: #444;
-  white-space: nowrap;     
-  overflow: hidden;           
-  text-overflow: ellipsis;   
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tabela thead {
@@ -94,7 +91,6 @@
     font-size: 20px;
   }
 }
-
 
 .menu-acoes button {
   background: none;
