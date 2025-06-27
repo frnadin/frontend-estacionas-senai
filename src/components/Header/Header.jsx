@@ -17,16 +17,16 @@ import { criarPermissao } from '../../services/permissaoService.js';
 import Toast from '../Toast/Toast.jsx';
 
 
-export default function Header({ tela, onNotificationClick }) {
+export default function Header({ tela, onNotificationClick, onPerfilClick }) {
   const [toastMessage, setToastMessage] = useState('');
-  const [pessoas, setPessoas] = useState([]);
+  const [pessoas, setPessoas] = useState([]); 
   const [veiculos, setVeiculos] = useState([]);
   const [camposVeiculo, setCamposVeiculo] = useState([]);
   const [camposPermissao, setCamposPermissao] = useState([]);
   const [formDataPermissao, setFormDataPermissao] = useState({});
   const navigate = useNavigate();
   const [modalAberto, setModalAberto] = useState(null);
-  const [showUserMenu, setShowUserMenu] = useState(false);
+ 
 
   const fetchData = useCallback(async () => {
     try {
@@ -167,19 +167,19 @@ export default function Header({ tela, onNotificationClick }) {
         </button>
 
         <button onClick={onNotificationClick}>
-          <MdNotificationsNone />
-        </button>
+  <MdNotificationsNone />
+</button>
 
-        <button onClick={() => setShowUserMenu(prev => !prev)}>
-          <FaUserCircle />
-        </button>
+<button onClick={onPerfilClick}>
+  <FaUserCircle />
+</button>
 
-        <button onClick={handleLogout}>
-          <FaPowerOff />
-        </button>
+<button onClick={handleLogout}>
+  <FaPowerOff />
+</button>
+
       </div>
-
-      {showUserMenu && <UserMenu />}
+    
 
       <Modal isOpen={modalAberto === 'pessoa'} onClose={() => setModalAberto(null)}>
         <FormGenerico
