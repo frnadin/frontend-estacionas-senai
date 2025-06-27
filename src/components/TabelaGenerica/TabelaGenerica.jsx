@@ -8,7 +8,7 @@ export default function TabelaGenerica({ dados, colunas, filtros, titulo = "", o
     const acessarValorAninhado = (obj, caminho) => {
         return caminho.split('.').reduce((acc, parte) => acc?.[parte], obj);
     };
-    
+
     const dadosFiltrados = useMemo(() => {
         const buscaLower = busca.toLowerCase();
         return dados.filter((item) =>
@@ -47,22 +47,31 @@ export default function TabelaGenerica({ dados, colunas, filtros, titulo = "", o
                             <tr key={idx}>
                                 {colunas.map(coluna => (
                                     <td key={coluna.chave}>
-                                        {(() => {
-                                            const valor = acessarValorAninhado(item, coluna.chave);
+                                        <span
+                                            style={{
+                                                all: 'unset',
+                                                cursor: 'default',
+                                            }}
+                                            title={String(acessarValorAninhado(item, coluna.chave))}
+                                        >
+                                            {(() => {
+                                                const valor = acessarValorAninhado(item, coluna.chave);
 
-                                            if (typeof valor === "string" && !isNaN(Date.parse(valor)) && valor.includes("T")) {
-                                                const data = new Date(valor);
-                                                return data.toLocaleDateString("pt-BR");
-                                            }
-                                            if (coluna.chave === "autorizado") {
-                                                return valor
-                                                    ? <FaCheckCircle color="green" style={{ display: 'block', margin: '0 auto' }} />
-                                                    : <FaTimesCircle color="red" style={{ display: 'block', margin: '0 auto' }} />;
-                                            }
+                                                if (typeof valor === "string" && !isNaN(Date.parse(valor)) && valor.includes("T")) {
+                                                    const data = new Date(valor);
+                                                    return data.toLocaleDateString("pt-BR");
+                                                }
+                                                if (coluna.chave === "autorizado") {
+                                                    return valor
+                                                        ? <FaCheckCircle color="green" style={{ display: 'block', margin: '0 auto' }} />
+                                                        : <FaTimesCircle color="red" style={{ display: 'block', margin: '0 auto' }} />;
+                                                }
 
 
-                                            return valor;
-                                        })()}
+                                                return valor;
+                                            })()}
+                                        </span>
+
                                     </td>
                                 ))}
                                 <td>

@@ -1,30 +1,30 @@
 import Header from '../../components/Header/Header.jsx';
 import React, { useState, useEffect } from 'react';
-import './PermissoesPage.css';
+import './RegistroPage.css';
 import SidebarMenu from '../../components/SideBar/SideBarMenu.jsx';
-import { listarPermissoes } from '../../services/permissaoService.js';
+import { listarRegistros } from '../../services/registroService.js';
 import NotificationModal from '../../components/NotificationModal/NotificationModal.jsx'
 import TabelaGenerica from '../../components/TabelaGenerica/TabelaGenerica.jsx';
-import { permissoesConfig } from '../../data/tabelasConfig.js'
+import { registrosConfig } from '../../data/tabelasConfig.js'
+import RegistroForm from '../../components/RegistroForm/RegistroForm.jsx';
 
-function Permissoes() {
+function Registros() {
 
   const [isNotificationModalOpen, setNotificationModalOpen] = useState(false);
-  const [permissoes, setVeiculos] = useState([]);
+  const [registros, setRegistros] = useState([]);
 
-  useEffect(() => {
-    async function carregarUsuarios() {
-      try {
-        const data = await listarPermissoes();
-        console.log(data);
-        
-        setVeiculos(data);
-      } catch (error) {
-        console.error('Erro ao carregar usuários:', error);
-      }
+useEffect(() => {
+  async function carregarRegistros() {
+    try {
+      const data = await listarRegistros();
+      console.log(data);
+      setRegistros(data);
+    } catch (error) {
+      console.error('Erro ao carregar registros:', error);
     }
-    carregarUsuarios();
-  }, []);
+  }
+  carregarRegistros();
+}, []);
 
 
 
@@ -47,14 +47,15 @@ function Permissoes() {
     <div className="home-layout">
       <SidebarMenu />
       <div className="home-main">
-        <Header tela="Permissoes" onNotificationClick={toggleNotificationModal} />
+        <Header tela="Registros" onNotificationClick={toggleNotificationModal} />
 
         <div className="home-container">
+          <RegistroForm></RegistroForm>
           <TabelaGenerica
-            titulo={permissoesConfig.titulo}
-            dados={permissoes}
-            colunas={permissoesConfig.colunas}
-            filtros={permissoesConfig.filtros}
+            titulo={registrosConfig.titulo}
+            dados={registros}
+            colunas={registrosConfig.colunas}
+            filtros={registrosConfig.filtros}
             acoes={(usuario) => (
               <>
                 <button onClick={() => handleEditar(usuario)} className="btn-acao editar">Editar</button>
@@ -70,5 +71,5 @@ function Permissoes() {
   );
 }
 
-export default Permissoes;
+export default Registros;
 

@@ -46,3 +46,27 @@ export const permissoesConfig = {
     "motivo_bloqueio"
   ],
 };
+
+export const registrosConfig = {
+  titulo: "Registros de Acesso",
+  colunas: [
+    { chave: "id", rotulo: "ID" },
+    { chave: "data_hora", rotulo: "Data/Hora" },
+    { chave: "tipo", rotulo: "Tipo" }, // entrada/saida
+    { chave: "Pessoa.name", rotulo: "Usuário" },
+    { chave: "Veiculo.plate", rotulo: "Placa do Veículo" },
+    { chave: "Veiculo.model", rotulo: "Modelo do Veículo" },
+    { chave: "autorizado", rotulo: "Autorizado" },
+    { chave: "motivo_bloqueio", rotulo: "Motivo do Bloqueio" },
+  ],
+  filtros: [
+    "id",
+    "data_hora",
+    "tipo",
+    "Pessoa.name",
+    "Veiculo.plate",
+    "Veiculo.model",
+    "autorizado",
+    "motivo_bloqueio"
+  ],
+};

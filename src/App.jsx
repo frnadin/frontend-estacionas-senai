@@ -4,7 +4,7 @@ import Home from './pages/HomePage/home.jsx';
 import Usuarios from './pages/UsersPage/UsersPage.jsx';
 import Permissoes from './pages/PermissoesPage/PermissoesPage.jsx';
 import Veiculos from './pages/VeiculosPage/VeiculosPage.jsx';
-import Acessos from './pages/AcessosPage/AcessosPage.jsx';
+import Registros from './pages/RegistroPage/RegistroPage.jsx';
 import { PrivateRoute } from './routes/PrivateRoute.jsx';
 import Error from './pages/ErrorPage/ErrorPage.jsx';
 
@@ -47,11 +47,12 @@ function App() {
           </PrivateRoute>
         }
       />
+
       <Route
-        path="/acessos"
+        path="/registro"
         element={
           <PrivateRoute>
-            <Acessos />
+            <Registros />
           </PrivateRoute>
         }
       />

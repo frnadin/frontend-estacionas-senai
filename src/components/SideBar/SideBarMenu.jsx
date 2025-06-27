@@ -20,7 +20,7 @@ export default function SidebarMenu() {
           <FaHome className="icon" />
           <h2>HOME</h2>
         </button>
-        <button onClick={() => navigate('/acessos')
+        <button onClick={() => navigate('/registro')
         }>
           <FaParking className="icon" />
           <h2>ACESSOS</h2>
