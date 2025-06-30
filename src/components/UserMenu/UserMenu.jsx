@@ -3,7 +3,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { listarUsuarioLogado } from '../../services/pessoaService';
 import './UserMenu.css';
 
-const UserMenu = forwardRef((props, ref) => {
+const UserMenu = forwardRef(({ onGerenciarConta }, ref) => {
   const { usuario } = useContext(AuthContext);
   const [dadosPessoa, setDadosPessoa] = useState(null);
 
@@ -45,7 +45,7 @@ const UserMenu = forwardRef((props, ref) => {
           </div>
 
           <ul className="menu-options">
-            <li onClick={() => alert('fazer tela para editar user?')}>Gerenciar conta</li>
+            <li onClick={onGerenciarConta}>Gerenciar conta</li>
             <li onClick={() => alert('em produção...')}>Configurações</li>
             <li onClick={() => alert('em produção...')}>Ajuda</li>
           </ul>

@@ -1,5 +1,5 @@
 import Header from '../../components/Header/Header.jsx';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import './VeiculosPage.css';
 import VagasBox from '../../components/VagasBox/VagasBox.jsx';
 import SidebarMenu from '../../components/SideBar/SideBarMenu.jsx';
@@ -9,6 +9,9 @@ import TabelaGenerica from '../../components/TabelaGenerica/TabelaGenerica.jsx';
 import { veiculosConfig } from '../../data/tabelasConfig.js'
 import { usePopup } from '../../hooks/usePopup.js';
 import UserMenu from '../../components/UserMenu/UserMenu.jsx';
+import { AuthContext } from '../../context/AuthContext.jsx';
+import { listarUsuarioLogado } from '../../services/pessoaService.js';
+import UserInfoModal from '../../components/UserInfoModal/UserInfoModal.jsx';
 
 function Veiculos() {
 
@@ -18,7 +21,18 @@ function Veiculos() {
   const userMenuRef = useRef(null);
 
   const { popupAtivo, togglePopup } = usePopup({ notificationRef, userMenuRef });
-
+  const { usuario } = useContext(AuthContext);
+  const [userInfoModalAberto, setUserInfoModalAberto] = useState(false);
+  const [usuarioCompleto, setUsuarioCompleto] = useState(null);
+  useEffect(() => {
+    async function carregarUsuarioCompleto() {
+      if (usuario?.id) {
+        const dados = await listarUsuarioLogado(usuario.id);
+        setUsuarioCompleto(dados);
+      }
+    }
+    carregarUsuarioCompleto();
+  }, [usuario]);
 
   useEffect(() => {
     async function carregarUsuarios() {
@@ -33,6 +47,11 @@ function Veiculos() {
     }
     carregarUsuarios();
   }, []);
+
+const abrirGerenciarConta = () => {
+  togglePopup(null); 
+  setUserInfoModalAberto(true);
+}
 
 
 
@@ -57,7 +76,12 @@ function Veiculos() {
           onPerfilClick={() => togglePopup('perfil')}
         />
         {popupAtivo === 'notificacao' && <NotificationModal ref={notificationRef} show={true} />}
-        {popupAtivo === 'perfil' && <UserMenu ref={userMenuRef} />}
+        {popupAtivo === 'perfil' && <UserMenu ref={userMenuRef} onGerenciarConta={abrirGerenciarConta} />}
+        <UserInfoModal
+          isOpen={userInfoModalAberto}
+          onClose={() => setUserInfoModalAberto(false)}
+          usuario={usuarioCompleto} 
+        />
 
         <div className="home-container">
           <TabelaGenerica
