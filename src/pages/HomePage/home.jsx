@@ -11,6 +11,7 @@ import './home.css';
 import { usePopup } from '../../hooks/usePopup.js';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import { listarUsuarioLogado } from '../../services/pessoaService.js';
+import Dashboard from '../../components/Dashboards/Dashboard.jsx';
 
 function Home() {
 
@@ -55,7 +56,8 @@ function Home() {
         />
 
         <div className="home-container">
-          <VagasBox total={60} livres={42} ocupadas={18} />
+          {/* <VagasBox total={60} livres={42} ocupadas={18} /> */}
+          <Dashboard />
         </div>
 
         {popupAtivo === 'notificacao' && <NotificationModal ref={notificationRef} show={true} />}
