@@ -34,4 +34,9 @@
   justify-content: center;
 }
 
-
+.modal-close:hover {
+  opacity: 0.8;
+}
+.modal-content.modal-menor {
+  min-width: 400px; 
+}

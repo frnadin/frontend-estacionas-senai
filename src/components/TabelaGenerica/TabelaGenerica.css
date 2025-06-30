@@ -105,3 +105,23 @@
 .menu-acoes button:hover {
   color: #007bff;
 }
+
+
+.tabela input[type="text"] {
+  width: 100%;
+  padding: 6px 8px;
+  font-family: 'PixelEmulator';
+  font-size: 12px;
+  border: 2px solid #5CC133;
+  border-radius: 3px;
+  transition: border-color 0.3s ease;
+}
+
+.tabela input[type="text"]:focus {
+  outline: none;
+  background-color: #5bc13325;
+}
+
+.tabela input[type="text"] {
+  cursor: text;
+}
