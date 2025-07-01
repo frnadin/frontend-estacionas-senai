@@ -123,7 +123,7 @@ export default function Header({ tela, onNotificationClick, onPerfilClick }) {
   const handleSubmitPermissao = async (dados) => {
     try {
       const response = await criarPermissao(dados);
-      setToastMessage('Usuário criado com sucesso!');
+      setToastMessage('Permissão criada com sucesso!');
       await fetchData();
       setModalAberto(null);
     } catch (error) {
