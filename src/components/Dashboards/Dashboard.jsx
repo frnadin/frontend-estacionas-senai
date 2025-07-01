@@ -110,18 +110,24 @@ export default function Dashboard() {
             </tr>
           </thead>
           <tbody>
-            {ultimosAcessos?.map((acesso, index) => (
-              <tr key={index}>
-                <td>{acesso.Veiculo?.plate}</td>
-                <td>{acesso.Veiculo?.model}</td>
-                <td>{acesso.Veiculo?.color}</td>
-                <td>{new Date(acesso.data_hora).toLocaleString()}</td>
-                <td className="user-table">{acesso.Pessoa?.name}</td> {/* Novo dado */}
-
-                <td style={{ color: 'green' }}>Dentro</td>
+            {ultimosAcessos && ultimosAcessos.length > 0 ? (
+              ultimosAcessos.map((acesso, index) => (
+                <tr key={index}>
+                  <td>{acesso.Veiculo?.plate}</td>
+                  <td>{acesso.Veiculo?.model}</td>
+                  <td>{acesso.Veiculo?.color}</td>
+                  <td>{new Date(acesso.data_hora).toLocaleString()}</td>
+                  <td className="user-table">{acesso.Pessoa?.name}</td>
+                  <td style={{ color: 'green' }}>Dentro</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="8">Nenhum registro encontrado</td>
               </tr>
-            ))}
+            )}
           </tbody>
+
         </table>
       </div>
 

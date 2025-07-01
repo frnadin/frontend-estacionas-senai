@@ -66,7 +66,7 @@
   margin-top: 22px;
   flex-basis: 100%; 
   display: flex;
-  justify-content: flex-end; /* alinha o botão à direita ou mude pra center se quiser centralizado */
+  justify-content: flex-end; 
 }
 
 .botao-submit {
@@ -79,7 +79,8 @@
   border-radius: 8px;
   cursor: pointer;
   height: 44px;
-  margin-left: auto; /* Isso faz o botão ir pro final da linha */
+  font-family: 'PixelEmulator', sans-serif;
+  margin-left: auto; 
 }
 
 .botao-submit:hover {

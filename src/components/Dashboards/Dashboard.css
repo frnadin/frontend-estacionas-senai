@@ -57,6 +57,13 @@
   overflow: hidden;
 }
 
+.tabela-acessos th {
+  background-color: #254aa5;
+  color: white;
+  padding: 10px;
+  text-transform: uppercase;
+}
+
 .tabela-acessos th,
 .tabela-acessos td {
   border: 1px solid #ddd;

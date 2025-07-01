@@ -1,7 +1,6 @@
 import Header from '../../components/Header/Header.jsx';
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import './UsersPage.css';
-import VagasBox from '../../components/VagasBox/VagasBox';
 import SidebarMenu from '../../components/SideBar/SideBarMenu';
 
 import NotificationModal from '../../components/NotificationModal/NotificationModal.jsx'

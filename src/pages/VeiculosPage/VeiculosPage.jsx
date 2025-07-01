@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState, useContext } from 'react';
 import './VeiculosPage.css';
 import VagasBox from '../../components/VagasBox/VagasBox.jsx';
 import SidebarMenu from '../../components/SideBar/SideBarMenu.jsx';
-import { listarVeiculos } from '../../services/veiculoService.js';
+import { listarVeiculos, atualizarVeiculo, deletarVeiculo } from '../../services/veiculoService.js';
 import NotificationModal from '../../components/NotificationModal/NotificationModal.jsx'
 import TabelaGenerica from '../../components/TabelaGenerica/TabelaGenerica.jsx';
 import { veiculosConfig } from '../../data/tabelasConfig.js'
@@ -13,6 +13,8 @@ import { AuthContext } from '../../context/AuthContext.jsx';
 import { listarUsuarioLogado } from '../../services/pessoaService.js';
 import UserInfoModal from '../../components/UserInfoModal/UserInfoModal.jsx';
 
+
+
 function Veiculos() {
 
   const [veiculos, setVeiculos] = useState([]);
@@ -20,10 +22,14 @@ function Veiculos() {
   const notificationRef = useRef(null);
   const userMenuRef = useRef(null);
 
+  const [editandoId, setEditandoId] = useState(null);
+  const [dadosEditados, setDadosEditados] = useState({});
   const { popupAtivo, togglePopup } = usePopup({ notificationRef, userMenuRef });
   const { usuario } = useContext(AuthContext);
   const [userInfoModalAberto, setUserInfoModalAberto] = useState(false);
   const [usuarioCompleto, setUsuarioCompleto] = useState(null);
+
+
   useEffect(() => {
     async function carregarUsuarioCompleto() {
       if (usuario?.id) {
@@ -34,8 +40,8 @@ function Veiculos() {
     carregarUsuarioCompleto();
   }, [usuario]);
 
-  useEffect(() => {
-    async function carregarUsuarios() {
+
+   async function carregarVeiculos() {
       try {
         const data = await listarVeiculos();
         console.log(data);
@@ -45,25 +51,50 @@ function Veiculos() {
         console.error('Erro ao carregar usuários:', error);
       }
     }
-    carregarUsuarios();
+
+  useEffect(() => {
+    carregarVeiculos();
   }, []);
 
-const abrirGerenciarConta = () => {
-  togglePopup(null); 
-  setUserInfoModalAberto(true);
-}
+  const abrirGerenciarConta = () => {
+    togglePopup(null);
+    setUserInfoModalAberto(true);
+  }
 
 
 
-  const handleEditar = (usuario) => {
-    console.log(`Editar usuário: ${usuario.nome}`);
-  };
+const startEdit = (veiculo) => {
+  setEditandoId(veiculo.id);
+  setDadosEditados(veiculo);
+};
 
-  const handleDeletar = (usuario) => {
-    if (window.confirm(`Deseja realmente deletar ${usuario.nome}?`)) {
-      console.log(`Usuário ${usuario.nome} deletado!`);
+const cancelEdit = () => {
+  setEditandoId(null);
+  setDadosEditados({});
+};
+
+const saveEdit = async () => {
+  try {
+    await atualizarVeiculo(editandoId, dadosEditados);
+    setEditandoId(null);
+    setDadosEditados({});
+    carregarVeiculos();
+  } catch (error) {
+    console.error('Erro ao salvar edição:', error);
+  }
+};
+
+const handleDeletar = async (veiculo) => {
+  if (window.confirm(`Deseja realmente deletar o veículo ${veiculo.plate}?`)) {
+    try {
+      await deletarVeiculo(veiculo.id);
+      carregarVeiculos();
+      console.log(`Veículo ${veiculo.plate} deletado com sucesso!`);
+    } catch (error) {
+      console.error('Erro ao deletar veículo:', error);
     }
-  };
+  }
+};
 
 
   return (
@@ -80,7 +111,7 @@ const abrirGerenciarConta = () => {
         <UserInfoModal
           isOpen={userInfoModalAberto}
           onClose={() => setUserInfoModalAberto(false)}
-          usuario={usuarioCompleto} 
+          usuario={usuarioCompleto}
         />
 
         <div className="home-container">
@@ -89,12 +120,14 @@ const abrirGerenciarConta = () => {
             dados={veiculos}
             colunas={veiculosConfig.colunas}
             filtros={veiculosConfig.filtros}
-            acoes={(usuario) => (
-              <>
-                <button onClick={() => handleEditar(usuario)} className="btn-acao editar">Editar</button>
-                <button onClick={() => handleDeletar(usuario)} className="btn-acao deletar">Deletar</button>
-              </>
-            )}
+            editandoId={editandoId}
+            dadosEditados={dadosEditados}
+            setDadosEditados={setDadosEditados}
+            onIniciarEdicao={startEdit}
+            onCancelarEdicao={cancelEdit}
+            onSalvarEdicao={saveEdit}
+            onRemover={handleDeletar}
+            
           />
         </div>
       </div>
