@@ -1,8 +1,94 @@
 .container-dashboard {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  max-height: 100%;
+}
+
+.cards-resumo {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 20px;
+  width: 10%;
+  flex: 0 0 10%; 
+}
+
+.cards-resumo h3 {
+  font-size: 0.8rem;
+  color: #254aa5;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.card {
+  height: 100%;
+  background: #fafafa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tabela-acessos {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  flex: 0 0 65%;
+  overflow: auto; 
+}
+.tabela-acessos h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #254aa5;
+  letter-spacing: 1px;
+}
+.tabela-acessos table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  font-size: 0.8rem;
+  color: #333;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tabela-acessos th,
+.tabela-acessos td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.user-table {
+  color: #254aa5;
+  font-weight: bold;
+}
+
+.container-graficos {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+     flex: 1;
+     justify-content: center;
+     align-items: center;
+     
+
+}
+
+.pie-chart {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+  flex-direction: column;
+}
+
+.pie-chart h2 {
+  font-size: 1rem;
+  color: #254aa5;
 }

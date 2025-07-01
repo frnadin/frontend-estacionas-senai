@@ -42,6 +42,7 @@ body {
 span, h2 {
   font-family: 'PixelEmulator', sans-serif;
   color: #254AA5;
+  font-weight: bold;
 }
 
 span {

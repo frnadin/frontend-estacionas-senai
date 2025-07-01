@@ -14,3 +14,8 @@ export const listarRegistros = async () => {
   const response = await api.get('/registros');
   return response.data;
 };  
+
+export const listarRegistrosAbertos = async () => {
+  const response = await api.get('/registros/abertos');
+  return response.data;
+};

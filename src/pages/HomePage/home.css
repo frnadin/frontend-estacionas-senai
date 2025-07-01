@@ -9,11 +9,11 @@
 .home-container {
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
+  /* padding: 20px; */
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  margin: 20px;
+  margin: 30px;
+  gap: 20px;
 }
 .home-layout {
   display: flex;

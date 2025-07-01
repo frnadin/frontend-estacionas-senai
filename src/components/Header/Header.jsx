@@ -84,21 +84,25 @@ console.log(pessoas);
     try {
       const response = await criarPessoa(dados);
       await fetchData();
-      setToastMessage('Usuário criado com sucesso', response);
+      setToastMessage('Usuário criado com sucesso! :D');
+      console.log(response);
+      
       setModalAberto(null);
     } catch (error) {
-      alert('Erro ao criar usuário.', error);
+      setToastMessage('Erro ao criar usuário.')
+      console.log(error);
+      
     }
   };
 
   const handleSubmitVeiculo = async (dados) => {
     try {
       const response = await criarVeiculo(dados);
-      setToastMessage('Veiculo criado com sucesso!', response);
+      setToastMessage('Veiculo criado com sucesso! :D', response);
       await fetchData();
       setModalAberto(null);
     } catch (error) {
-      setToastMessage('Erro ao criar veiculo', error);
+      setToastMessage('Erro ao criar veiculo D:', error);
     }
   };
 
@@ -128,11 +132,11 @@ console.log(pessoas);
       const response = await criarPermissao(dados);
       console.log(response);
       
-      setToastMessage('Usuário criado com sucesso!');
+      setToastMessage('Permissão criada com sucesso! :D');
       await fetchData();
       setModalAberto(null);
     } catch (error) {
-      setToastMessage('Erro ao criar permissão')
+      setToastMessage('Erro ao criar permissão D:')
       console.log(error)
     }
   };

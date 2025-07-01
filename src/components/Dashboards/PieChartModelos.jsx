@@ -1,21 +1,21 @@
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
 export default function PieChartModelos({ data }) {
-const COLORS = [
-  '#007BFF', 
-  '#32CD32',
-  '#20B2AA',
-];
+  const COLORS = [
+    '#8CD65D',
+    '#5B7EDC',
+    '#808080'  
+  ];
 
   return (
-    <PieChart width={300} height={300}>
+    <PieChart width={200} height={200}>
       <Pie
         data={data}
         dataKey="value"
         nameKey="name"
         cx="50%"
         cy="50%"
-        outerRadius={120}
+        outerRadius={70}
         label
       >
         {data.map((_, index) => (
